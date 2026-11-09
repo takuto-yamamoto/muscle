@@ -847,46 +847,30 @@ async function downloadRecent() {
 
 /* ========== タイマー ========== */
 const T = {end:0, dur:90, iv:null};
-let AC = null, BEEP_EL = null, BEEP_URL = null, AUDIO_OK = false;
-/* アラーム音(WAV)をその場で作る:880Hz のピピピ×2 */
-function makeBeepUrl() {
-  const sr = 22050, len = Math.round(sr * 1.9), data = new Int16Array(len);
-  [0, .28, .56, 1.1, 1.38, 1.66].forEach(o => {
-    const s0 = Math.round(o * sr), n = Math.round(.2 * sr);
-    for (let k = 0; k < n && s0 + k < len; k++) {
-      const env = Math.min(1, k / (sr * .01), (n - k) / (sr * .02));
-      data[s0 + k] = (Math.sin(2 * Math.PI * 880 * k / sr) >= 0 ? 1 : -1) * 0.45 * env * 32767;
-    }
-  });
-  const buf = new ArrayBuffer(44 + len * 2), v = new DataView(buf);
-  const w = (o, str) => { for (let k = 0; k < str.length; k++) v.setUint8(o + k, str.charCodeAt(k)); };
-  w(0, 'RIFF'); v.setUint32(4, 36 + len * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
-  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true);
-  v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, len * 2, true);
-  new Int16Array(buf, 44).set(data);
-  return URL.createObjectURL(new Blob([buf], {type:'audio/wav'}));
+/* ========== アラーム音 ==========
+   音楽アプリの再生を止めないための方針:
+   ・<audio> 要素は使わない(メディア要素は他アプリの音楽を止めることがある)
+   ・Web Audio だけで鳴らす
+   ・iPhone(Safari 17+)では audioSession を 'ambient' にして、他アプリの音と「混ぜて」鳴らす */
+let AC = null;
+function mixWithOtherAudio() {
+  try { if (navigator.audioSession && navigator.audioSession.type !== 'ambient') navigator.audioSession.type = 'ambient'; } catch (e) {}
 }
-/* 画面タップのたびに音の再生許可を取っておく(iPhone は操作の中でしか音を出せないため) */
+mixWithOtherAudio();
+/* 画面タップのときに AudioContext を起こしておく(iPhone は操作の中でしか音を出せないため) */
 function unlockAudio() {
-  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  mixWithOtherAudio();
   try {
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
-    if (AC.state !== 'running') AC.resume();
-    const src = AC.createBufferSource(); src.buffer = AC.createBuffer(1, 1, 22050); src.connect(AC.destination); src.start(0);
-  } catch (e) {}
-  if (AUDIO_OK) return;
-  try {
-    if (!BEEP_URL) BEEP_URL = makeBeepUrl();
-    if (!BEEP_EL) { BEEP_EL = new Audio(BEEP_URL); BEEP_EL.preload = 'auto'; BEEP_EL.setAttribute('playsinline', ''); }
-    BEEP_EL.muted = true;
-    const pr = BEEP_EL.play();
-    const done = () => { BEEP_EL.pause(); BEEP_EL.currentTime = 0; BEEP_EL.muted = false; };
-    if (pr && pr.then) pr.then(() => { done(); AUDIO_OK = true; }).catch(() => { BEEP_EL.muted = false; });
-    else { done(); AUDIO_OK = true; }
+    if (AC.state !== 'running') {
+      AC.resume();
+      const src = AC.createBufferSource(); src.buffer = AC.createBuffer(1, 1, 22050); src.connect(AC.destination); src.start(0);
+    }
   } catch (e) {}
 }
 function beepWebAudio() {
   if (!AC) return;
+  mixWithOtherAudio();
   try { if (AC.state !== 'running') AC.resume(); } catch (e) {}
   const t = AC.currentTime + .05;
   [0, .28, .56, 1.1, 1.38, 1.66].forEach(o => {
@@ -899,15 +883,7 @@ function beepWebAudio() {
 function beep() {
   if (!S.settings.sound) return;
   try { navigator.vibrate && navigator.vibrate([200, 80, 200, 80, 200, 300, 200, 80, 200, 80, 200]); } catch (e) {}
-  let fellBack = false;
-  const fallback = () => { if (!fellBack) { fellBack = true; beepWebAudio(); } };
-  try {
-    if (!BEEP_URL) BEEP_URL = makeBeepUrl();
-    if (!BEEP_EL) BEEP_EL = new Audio(BEEP_URL);
-    BEEP_EL.muted = false; BEEP_EL.volume = 1; BEEP_EL.currentTime = 0;
-    const pr = BEEP_EL.play();
-    if (pr && pr.catch) pr.catch(fallback);
-  } catch (e) { fallback(); }
+  try { beepWebAudio(); } catch (e) {}
 }
 function startTimer(sec) {
   sec = sec || S.settings.timer;
