@@ -584,11 +584,11 @@ body{overflow-x:clip}
 <nav class="tabs">
   <button class="tab" data-act="tab" data-tab="train"><svg viewBox="0 0 24 24"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg><span>トレ</span></button>
   <button class="tab" data-act="tab" data-tab="review"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>振り返り</span></button>
-  <button class="tab" data-act="tab" data-tab="settings"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>メニュー</span></button>
+  <button class="tab" data-act="tab" data-tab="settings"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>設定</span></button>
 </nav>
 <div id="sheet" class="sheet hidden"><div class="sheet-bg" data-act="closeSheet"></div><div class="sheet-panel" id="sheetPanel"></div></div>
 <div id="toast" class="toast"></div>
-<div id="dlg" class="dlg hidden" role="dialog" aria-modal="true"><div class="dlg-box"><div id="dlgBody"></div><div class="dlg-btns"><button type="button" id="dlgNo" class="btn ghost">やめる</button><button type="button" id="dlgOk" class="btn primary">OK</button></div></div></div>
+<div id="dlg" class="dlg hidden" role="dialog" aria-modal="true"><div class="dlg-box"><div id="dlgBody"></div><div class="dlg-btns"><button type="button" id="dlgNo" class="btn ghost">戻る</button><button type="button" id="dlgOk" class="btn primary">OK</button></div></div></div>
 
 <script>
 'use strict';
@@ -617,7 +617,10 @@ const rr = d => +d.repMin === +d.repMax ? d.repMax : `${d.repMin}〜${d.repMax}`
 function exDef(id, name, weight, sets, repMin, repMax, step, opt = {}) {
   return {id, name, weight, sets, repMin, repMax, step, memo:'', form:'', enabled:true, warmup:false, ...opt};
 }
-function FIXED_MENU() {
+/* 旧バージョンの初期値。既存データの移行専用(新規ユーザーには使わない) */
+const LEGACY_START = '2026-11-01';
+const LEGACY_CARDIO = () => ({type:'ランニングマシン', note:'競歩・傾斜15%・4km/h', min:15});
+function LEGACY_MENU() {
   return [
     exDef('chest','チェストプレス',36,3,8,10,2.5),
     exDef('latpd','ラットプルダウン(前)',38,3,8,10,2.5),
@@ -629,7 +632,7 @@ function FIXED_MENU() {
     ...GYM_EXTRA()
   ];
 }
-/* ジムにあるほかのマシン(普段はOFF。メニュータブでONにすると使える) */
+/* 普段はOFFの種目(設定タブでONにすると使える) */
 function GYM_EXTRA() {
   return [
     exDef('latpd_b','ラットプルダウン(後ろ)',null,3,8,10,2.5,{enabled:false}),
@@ -640,12 +643,14 @@ function GYM_EXTRA() {
     exDef('abduct','アブダクション(外側)',null,2,10,12,2.5,{enabled:false}),
   ];
 }
+/* 新規ユーザーの初期メニュー:種目名だけ用意し、重量は空(最初のトレーニングで入力) */
+function NEW_MENU() { return LEGACY_MENU().map(d => ({...d, weight:null})); }
 function defaultState() {
   return {
     v: 6,
-    settings: {startDate:'2026-11-01', timer:90, theme:'light', sound:true, autoProg:false},
-    menus: {A: FIXED_MENU(), B: []},
-    cardioPlan: {type:'ランニングマシン', note:'競歩・傾斜15%・4km/h', min:15},
+    settings: {startDate:today(), timer:90, theme:'light', sound:true, autoProg:false},
+    menus: {A: NEW_MENU(), B: []},
+    cardioPlan: {type:'', note:'', min:15},
     sessions: [],
     active: null
   };
@@ -670,12 +675,12 @@ const TEMPLATES = [
 function migrate(s) {
   const d = defaultState();
   const old = s.settings || {};
-  s.settings = {...d.settings, startDate: old.startDate || d.settings.startDate, timer: +old.timer || 90,
+  s.settings = {...d.settings, startDate: old.startDate || LEGACY_START, timer: +old.timer || 90,
     theme: old.theme === 'dark' ? 'dark' : 'light', sound: old.sound !== false, autoProg: old.autoProg === true};
   s.sessions = Array.isArray(s.sessions) ? s.sessions : [];
   delete s.swaps; delete s.menuLabel; delete s.body; delete s.meals;  // 削除した機能のデータ
   if (!s.v || s.v < 2 || !s.menus || !s.menus.A) {  // A/B → 固定メニューへ移行
-    s.menus = d.menus; s.v = 2;
+    s.menus = {A: LEGACY_MENU(), B: []}; s.v = 2;
   }
   s.menus.B = s.menus.B || [];
   if (s.v < 3) { s.settings.timer = 60; s.v = 3; }  // 休憩は60秒固定に
@@ -685,8 +690,8 @@ function migrate(s) {
     s.v = 4;
   }
   if (s.v < 6) { s.settings.timer = 90; s.v = 6; }  // 休憩の初期値を90秒に
-  s.cardioPlan = s.cardioPlan || d.cardioPlan;
-  if (/^競歩/.test(s.cardioPlan.type || '')) s.cardioPlan = {...d.cardioPlan, min:s.cardioPlan.min || 15};
+  s.cardioPlan = s.cardioPlan || LEGACY_CARDIO();
+  if (/^競歩/.test(s.cardioPlan.type || '')) s.cardioPlan = {...LEGACY_CARDIO(), min:s.cardioPlan.min || 15};
   if (s.cardioPlan.note == null) s.cardioPlan.note = '';
   return s;
 }
@@ -738,13 +743,13 @@ function suggest(def) {
   if (!lw) return {w:base, kind:'keep', msg:''};
   if (!S.settings.autoProg) return {w:lw, kind:'keep', msg:''};  // 重量キープ設定
   if (h.length >= 2 && isUnder(h[0]) && isUnder(h[1]))
-    return {w:r2(Math.max(lw - step, 0)), kind:'down', msg:'2回連続未達 → 1段階ダウン'};
+    return {w:r2(Math.max(lw - step, 0)), kind:'down', msg:'2回続けて目標回数に届かず → 1段階ダウン'};
   if (isTop(last))
     return {w:r2(lw + step), kind:'up', msg:`全セット達成 → +${fmt(step)}kg`};
   return {w:lw, kind:'keep', msg:''};
 }
 const progWeek = () => { const n = daysBetween(S.settings.startDate, today()); return n < 0 ? 1 : Math.floor(n/7) + 1; };
-const rirMsg = () => progWeek() <= 2 ? 'あと2〜3回の余裕で' : 'あと1〜2回の余裕で';
+const rirMsg = () => progWeek() <= 2 ? '各セット余力2〜3回を残す' : '各セット余力1〜2回を残す';
 const sessNo = n => String(n).padStart(2, '0');
 function bestBefore(exId) { let b = 0; history(exId).forEach(e => { if (!e.warmup) { const w = recWeight(e); if (w > b) b = w; } }); return b; }
 
@@ -803,8 +808,8 @@ function vComplete(sess) {
     <div class="stats3"><div><b>${dur}</b>分</div><div><b>${sets}</b>セット</div><div><b>${Math.round(sessVolume(sess)).toLocaleString()}</b>kg</div></div>
     <div class="card p0 done-list">${sess.exercises.map(e => `<div class="plan-row"><span>${esc(e.name)}</span><b>${esc(setsText(e))}</b><i class="k"></i></div>`).join('')}
       ${sess.cardio && sess.cardio.type ? `<div class="plan-row"><span>${esc(sess.cardio.type)}</span><b>${sess.cardio.min}分</b><i class="k"></i></div>` : ''}</div>
-    <button class="btn primary big block" data-act="shareDay" data-id="${sess.id}"><span>AIに共有</span></button>
-    <p class="done-hint">その日の記録をCSVファイルで保存します</p>
+    <button class="btn primary big block" data-act="shareDay" data-id="${sess.id}"><span>この日の記録を共有(CSV)</span></button>
+    <p class="done-hint">CSVファイルで保存・共有します。AIに分析してもらうときにも使えます</p>
     <button class="btn ghost block" data-act="closeDone">終わる</button>
   </div>`;
 }
@@ -918,7 +923,7 @@ function renderTimerShell() {
   el.classList.toggle('hidden', !show); document.body.classList.toggle('has-timer', show);
   if (!show) return;
   el.innerHTML = `<div class="t-fill" id="tFill"></div><div class="t-row">
-    <button class="t-main" data-act="timerToggle"><span id="tLabel"></span><b id="tLeft"></b></button>
+    <button class="t-main" data-act="timerToggle"><span>休憩</span><span id="tLabel"></span><b id="tLeft"></b></button>
 </div>`;
   tick();
 }
@@ -955,10 +960,12 @@ function vTrain() {
   return `
   <section class="hero">
     <div class="band"><span>NEXT SESSION</span><b>${rirMsg()}</b></div>
-    <div class="hero-m"><span class="letter">${sessNo(S.sessions.length + 1)}</span><div><b>SESSION</b><small>${defs.length}種目${cp.type ? ' + ランニングマシン' : ''}</small></div></div>
+    <div class="hero-m"><span class="letter">${sessNo(S.sessions.length + 1)}</span><div><b>SESSION</b><small>${defs.length}種目${cp.type ? ' + 有酸素' : ''}</small></div></div>
     <button class="btn primary big block" data-act="start"><span>START</span></button>
   </section>
-  <div class="card p0">${defs.map(d => { const sg = suggest(d); return `<div class="plan-row"><span>${esc(d.name)}</span><b>${isNum(sg.w) ? fmt(sg.w)+'kg' : '—'}</b><i class="k ${sg.kind}">${ARW[sg.kind]}</i></div>`; }).join('')}${cp.type ? `<div class="plan-row"><span>${esc(cp.type)}${cp.note ? `<small style="display:block;color:var(--sub);font-size:12px">${esc(cp.note)}</small>` : ''}</span><b>${cp.min}分</b><i class="k"></i></div>` : ''}</div>`;
+  ${defs.some(d => !isNum(d.weight)) ? '<p class="muted" style="font-size:12px;margin:0 0 10px">重量が「—」の種目は、トレーニング中に入力してください。次回からは前回の重量が自動で入ります。</p>' : ''}
+  <div class="card p0">${defs.map(d => { const sg = suggest(d); return `<div class="plan-row"><span>${esc(d.name)}</span><b>${isNum(sg.w) ? fmt(sg.w)+'kg' : '—'}</b><i class="k ${sg.kind}">${ARW[sg.kind]}</i></div>`; }).join('')}${cp.type ? `<div class="plan-row"><span>${esc(cp.type)}${cp.note ? `<small style="display:block;color:var(--sub);font-size:12px">${esc(cp.note)}</small>` : ''}</span><b>${cp.min}分</b><i class="k"></i></div>` : ''}</div>
+  ${defs.some(d => ['up','down'].includes(suggest(d).kind)) ? '<p class="muted" style="font-size:12px;margin:8px 0 0">▲ 前回より重量アップ ▼ 重量ダウン</p>' : ''}`;
 }
 function vActive() {
   const A = S.active;
@@ -981,7 +988,8 @@ function vActive() {
   </div>
   <button class="btn ghost block" data-act="addExToSession">+ 種目</button>
   <div class="finish"><button class="btn primary big block" data-act="finish"><span>FINISH</span></button>
-  <button class="btn ghost sm block" data-act="discard" style="margin-top:10px;color:var(--sub)">破棄</button></div>`;
+  <p class="muted" style="text-align:center;font-size:12px;margin:6px 0 0">記録を保存して終わります</p>
+  <button class="btn ghost sm block" data-act="discard" style="margin-top:10px;color:var(--sub)">記録せずにやめる</button></div>`;
 }
 function vCardioRoom() {
   const A = S.active, c = A.cardio;
@@ -996,7 +1004,7 @@ function vCardioRoom() {
       <button data-act="cardioMinAdj" data-d="5" aria-label="5分増やす">+</button>
     </div>
     ${c.done
-      ? `<div class="room-done">COMPLETE</div><button class="btn primary big block" data-act="roomBack"><span>DONE</span></button><button class="undo" data-act="cardioDone">取り消す</button>`
+      ? `<div class="room-done">COMPLETE</div><button class="btn primary big block" data-act="roomBack"><span>一覧へ</span></button><button class="undo" data-act="cardioDone">取り消す</button>`
       : `<button class="setbtn" data-act="cardioDone"><small>RUN</small><b>${c.min}</b><span>分 完了</span></button>`}
   </div>`;
 }
@@ -1015,6 +1023,7 @@ function vRoom(i) {
     <div class="room-no">${sessNo(i + 1)} / ${sessNo(A.exercises.length)}</div>
     <h1 class="room-name">${esc(e.name)}</h1>
     <div class="room-target"><b>${rr(e)}</b>回 × <b>${total}</b>セット${def && def.memo ? `<span class="memo-tag">${esc(def.memo)}</span>` : ''}</div>
+    ${def && def.form ? `<p class="muted" style="font-size:13px;margin:-4px 0 12px;white-space:pre-wrap">${esc(def.form)}</p>` : ''}
     <div class="ex-info">
       <div class="ib"><div class="ib-l">前回</div><div class="ib-v">${e.prev ? esc(e.prev.text) : '—'}</div></div>
       <div class="ib sg"><div class="ib-l">${S.settings.autoProg ? '推奨' : '今回'}</div><div class="ib-v">${isNum(sg.w) ? fmt(sg.w) + 'kg' : '—'} ${ARW[sg.kind] || ''}</div></div>
@@ -1026,11 +1035,12 @@ function vRoom(i) {
       <button data-act="wAdj" data-i="${i}" data-d="1" aria-label="重量を上げる">+</button>
     </div>
     <div class="setdots">${e.sets.map((s, j) => `<button class="sd ${s.done ? 'on' : ''} ${j === doneN && !fin ? 'now' : ''}" data-act="setReps" data-i="${i}" data-j="${j}" ${s.done ? '' : 'disabled'}><b>${j + 1}</b><small>${s.done ? (s.r < e.repMax ? s.r + '回' : '✓') : 'SET'}</small></button>`).join('')}</div>
+    ${doneN ? '<p class="muted" style="text-align:center;font-size:12px;margin:-8px 0 14px">回数が違ったら、終わったセットの丸をタップして直せます</p>' : ''}
     ${fin
       ? `<div class="room-done">${e.aborted ? '中止' : e.skipped ? 'SKIP' : 'COMPLETE'}</div>
          <button class="btn primary big block" data-act="roomBack"><span>一覧へ</span></button>`
       : `<button class="setbtn" data-act="setDone" data-i="${i}"><small>SET</small><b>${doneN + 1}</b><span>/ ${total} 完了</span></button>`}
-    ${doneN && !e.aborted ? `<button class="undo" data-act="setUndo" data-i="${i}">1セット戻す</button>` : ''}
+    ${doneN && !e.aborted ? `<button class="undo" data-act="setUndo" data-i="${i}">最後のセットを取り消す</button>` : ''}
     ${e.skipped ? `<button class="undo" data-act="unskip" data-i="${i}">飛ばしを取り消す</button>` : !fin ? `<button class="undo" data-act="skip" data-i="${i}">この種目を飛ばす</button>` : ''}
   </div>`;
 }
@@ -1098,13 +1108,13 @@ function calendarHtml() {
   const byDate = {}; S.sessions.forEach(s => (byDate[s.date] = byDate[s.date] || []).push('●'));
   const rows = Math.ceil((offset + days)/7), t = today();
   let h = `<div class="cal-nav"><button data-act="calNav" data-d="-1" aria-label="前の月">‹</button><b>${y}年${m+1}月</b><button data-act="calNav" data-d="1" aria-label="次の月">›</button></div>
-    <div class="cal-h">${['月','火','水','木','金','土','日'].map((d, k) => `<span class="${[1,3,5].includes(k)?'rec':''}">${d}</span>`).join('')}<span></span></div>`;
+    <div class="cal-h">${['月','火','水','木','金','土','日'].map(d => `<span>${d}</span>`).join('')}<span>回/週</span></div>`;
   for (let r = 0; r < rows; r++) {
     h += '<div class="cal-r">'; let cnt = 0;
     for (let k = 0; k < 7; k++) {
       const d = new Date(y, m, 1 - offset + r*7 + k), s = ymd(d), ms = byDate[s] || [];
       cnt += ms.length;
-      h += `<div class="cd ${d.getMonth() !== m ? 'out' : ''} ${[1,3,5].includes(k) ? 'rec' : ''} ${s === t ? 'today' : ''} ${ms.length ? 'has' : ''}"><span>${d.getDate()}</span>${ms.length ? `<b>${ms.join('')}</b>` : ''}</div>`;
+      h += `<div class="cd ${d.getMonth() !== m ? 'out' : ''} ${s === t ? 'today' : ''} ${ms.length ? 'has' : ''}"><span>${d.getDate()}</span>${ms.length ? `<b>${ms.join('')}</b>` : ''}</div>`;
     }
     h += `<div class="cnt ${cnt >= 2 ? 'good' : ''}">${cnt}</div></div>`;
   }
@@ -1123,22 +1133,23 @@ function vReview() {
   const thisVol = vol[vol.length-1].y;
   const hist = S.sessions.slice(-30).reverse();
   return `
-  <button class="btn dark block" data-act="recentCsv">直近4週間をダウンロード(CSV)</button>
+  <button class="btn dark block" data-act="recentCsv">直近4週間の記録をCSVで保存</button>
   <h2>カレンダー</h2>
   <div class="card">${calendarHtml()}</div>
   <h2>重量の推移</h2>
   <div class="card">
     <select data-f="chartEx" style="margin-bottom:8px">${opts.map(([id, n]) => `<option value="${id}" ${id === U.chartEx ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select>
     <div class="seg2" style="margin-bottom:8px"><button class="${U.chartMode==='max'?'on':''}" data-act="chartMode" data-v="max">最大重量</button><button class="${U.chartMode==='e1rm'?'on':''}" data-act="chartMode" data-v="e1rm">推定1RM</button></div>
+    ${U.chartMode==='e1rm' ? '<p class="muted" style="font-size:12px;margin:0 0 8px">推定1RM:1回だけ挙げられる重さの目安(重量と回数から計算)</p>' : ''}
     ${lineChart(exPts, {unit:'kg'})}
   </div>
-  <h2>週ボリューム</h2>
-  <div class="card"><div style="font-size:26px;font-weight:900;margin-bottom:6px">${Math.round(thisVol).toLocaleString()}<small style="font-size:14px"> kg</small></div>${barChart(vol)}</div>
+  <h2>週の総挙上量</h2>
+  <div class="card"><p class="muted" style="margin:0 0 4px;font-size:12px">今週の「重量 × 回数」の合計</p><div style="font-size:26px;font-weight:900;margin-bottom:6px">${Math.round(thisVol).toLocaleString()}<small style="font-size:14px"> kg</small></div>${barChart(vol)}</div>
   <h2>履歴</h2>
-  <div class="card p0">${hist.map(s => `<div class="hist"><button class="hist-h" data-act="toggleHist" data-id="${s.id}"><span class="letter">${sessNo(S.sessions.indexOf(s) + 1)}</span><div><b>${md(s.date)}</b><small>${sessVolume(s) ? Math.round(sessVolume(s)).toLocaleString() + 'kg' : ''}${s.cardio && s.cardio.type ? (sessVolume(s) ? ' · ' : '') + 'ランニングマシン ' + s.cardio.min + '分' : ''}</small></div><span class="muted">${U.openHist === s.id ? '▲' : '▼'}</span></button>
+  <div class="card p0">${hist.map(s => `<div class="hist"><button class="hist-h" data-act="toggleHist" data-id="${s.id}"><span class="letter">${sessNo(S.sessions.indexOf(s) + 1)}</span><div><b>${md(s.date)}</b><small>${sessVolume(s) ? Math.round(sessVolume(s)).toLocaleString() + 'kg' : ''}${s.cardio && s.cardio.type ? (sessVolume(s) ? ' · ' : '') + '有酸素 ' + s.cardio.min + '分' : ''}</small></div><span class="muted">${U.openHist === s.id ? '▲' : '▼'}</span></button>
     ${U.openHist === s.id ? `<div class="hist-b">${s.exercises.map(e => `<div><b>${esc(e.name)}</b> ${esc(setsText(e))}</div>`).join('')}
       <div class="muted">${[s.cardio && s.cardio.type && s.cardio.type !== 'なし' ? esc(s.cardio.type) + ' ' + (s.cardio.min||0) + '分' : ''].filter(Boolean).join(' · ')}</div>
-      <div class="row" style="margin-top:10px"><button class="btn sm dark" data-act="shareDay" data-id="${s.id}">AIに共有</button><button class="btn sm ghost danger" data-act="delSession" data-id="${s.id}">削除</button></div></div>` : ''}</div>`).join('') || '<div class="empty">—</div>'}</div>`;
+      <div class="row" style="margin-top:10px"><button class="btn sm dark" data-act="shareDay" data-id="${s.id}">共有(CSV)</button><button class="btn sm ghost danger" data-act="delSession" data-id="${s.id}">削除</button></div></div>` : ''}</div>`).join('') || '<div class="empty">—</div>'}</div>`;
 }
 function coachSummary() {
   const end = today(), start = addDays(end, -27);
@@ -1184,30 +1195,31 @@ function vSettings() {
     const all = S.menus[m].map((d, i) => [d, i]);
     const on = all.filter(([d]) => d.enabled), off = all.filter(([d]) => !d.enabled);
     return `<div class="card p0">${on.map(([d, i]) => row(d, i)).join('') || '<div class="empty">種目がありません</div>'}</div>
-    ${off.length ? `<h2>ジムのほかの種目</h2><div class="card p0">${off.map(([d, i]) => row(d, i)).join('')}</div>` : ''}`;
+    ${off.length ? `<h2>使っていない種目</h2><div class="card p0">${off.map(([d, i]) => row(d, i)).join('')}</div>` : ''}`;
   })()}
   <button class="btn block" data-act="newEx">+ 種目</button>
   <div class="card" style="margin-top:14px"><div class="grid2" style="grid-template-columns:1.6fr 1fr">
-    <div class="field"><label>有酸素</label><input data-f="cardioPlan" data-k="type" value="${esc(S.cardioPlan.type)}"></div>
+    <div class="field"><label>有酸素(空欄ならなし)</label><input data-f="cardioPlan" data-k="type" value="${esc(S.cardioPlan.type)}" placeholder="例:ランニングマシン"></div>
     <div class="field"><label>分</label><input inputmode="numeric" data-f="cardioPlan" data-k="min" value="${S.cardioPlan.min || ''}"></div>
-  </div><div class="field" style="margin:0"><label>内容</label><input data-f="cardioPlan" data-k="note" value="${esc(S.cardioPlan.note || '')}"></div></div>
+  </div><div class="field" style="margin:0"><label>内容</label><input data-f="cardioPlan" data-k="note" value="${esc(S.cardioPlan.note || '')}" placeholder="例:傾斜10%・時速5km"></div></div>
 
   <h2>プログラム</h2>
   <div class="card">
     <div class="field"><label>開始日</label><input type="date" data-f="setting" data-k="startDate" value="${st.startDate}"></div>
-    <div><b>第${progWeek()}週</b> <span class="muted">${rirMsg()}</span></div>
+    <div><b>今は第${progWeek()}週</b> <span class="muted">${rirMsg()}</span></div>
+    <p class="muted" style="margin:8px 0 0;font-size:12px">開始日から数えた週です。1〜2週目は軽めに、3週目からは少し追い込む目安を表示します。</p>
   </div>
 
   <h2>重量の自動アップ</h2>
   <div class="card">
     <div class="seg2">${[[false,'キープ'],[true,'自動アップ']].map(([v, l]) => `<button class="${st.autoProg===v?'on':''}" data-act="autoProg" data-v="${v}">${l}</button>`).join('')}</div>
-    <p class="muted" style="margin:10px 0 0">${st.autoProg ? '全セットできたら次回は1段階アップ、2回続けて届かなければ1段階ダウンを提案します。' : '前回と同じ重量で始めます。変えたいときはその日のルームで −/+ してください。'}</p>
+    <p class="muted" style="margin:10px 0 0">${st.autoProg ? '全セットできたら次回は1段階アップ、2回続けて届かなければ1段階ダウンを提案します。' : '前回と同じ重量で始めます。変えたいときはトレーニング中の種目画面で −/+ してください。'}</p>
   </div>
 
   <h2>休憩タイマー</h2>
   <div class="card">
     <div class="seg2" style="margin-bottom:10px">${[60,90,120].map(s => `<button class="${st.timer===s?'on':''}" data-act="timerPreset" data-v="${s}">${s}秒</button>`).join('')}</div>
-    <label class="check"><input type="checkbox" data-f="setting" data-k="sound" ${st.sound?'checked':''}> 音</label>
+    <label class="check"><input type="checkbox" data-f="setting" data-k="sound" ${st.sound?'checked':''}> 休憩が終わったら音で知らせる</label>
   </div>
 
   <h2>表示</h2>
@@ -1218,10 +1230,10 @@ function vSettings() {
 
   <h2>データ</h2>
   <div class="card">
-    <button class="btn dark block" data-act="exportJson">バックアップ(JSON)</button>
-    <label class="btn block">復元(JSON)<input type="file" accept=".json,application/json" data-f="importFile" hidden></label>
-    <button class="btn ghost block" data-act="exportCsv">CSV出力</button>
-    <button class="btn ghost block" data-act="summary">サマリーをコピー</button>
+    <button class="btn dark block" data-act="exportJson">バックアップを保存(JSON)</button>
+    <label class="btn block">バックアップから復元(JSON)<input type="file" accept=".json,application/json" data-f="importFile" hidden></label>
+    <button class="btn ghost block" data-act="exportCsv">全期間の記録をCSVで保存</button>
+    <button class="btn ghost block" data-act="summary">AI相談用のまとめをコピー</button>
     <button class="btn ghost block danger" data-act="reset">全データ削除</button>
   </div>
 `;
@@ -1236,17 +1248,18 @@ function editExSheet(m, i) {
     <div class="field"><label>種目名</label><input name="name" value="${esc(d.name)}" required></div>
     <div class="grid2">
       <div class="field"><label>重量 kg</label><input name="weight" inputmode="decimal" value="${isNum(d.weight) ? d.weight : ''}"></div>
-      <div class="field"><label>刻み kg</label><input name="step" inputmode="decimal" value="${d.step}"></div>
+      <div class="field"><label>増減の幅 kg</label><input name="step" inputmode="decimal" value="${d.step}"></div>
     </div>
     <div class="grid3">
       <div class="field"><label>セット数</label><input name="sets" inputmode="numeric" value="${d.sets}"></div>
       <div class="field"><label>回数 下限</label><input name="repMin" inputmode="numeric" value="${d.repMin}"></div>
       <div class="field"><label>回数 上限</label><input name="repMax" inputmode="numeric" value="${d.repMax}"></div>
     </div>
+    <p class="muted" style="font-size:12px;margin:-4px 0 10px">目標回数の範囲です。「自動アップ」のときは、全セット上限までできたら次回の重量を上げます。</p>
     <div class="field"><label>メモ</label><input name="memo" value="${esc(d.memo)}"></div>
-    <div class="field"><label>フォーム</label><textarea name="form" rows="2">${esc(d.form)}</textarea></div>
-    <label class="check"><input type="checkbox" name="enabled" ${d.enabled ? 'checked' : ''}> 使う</label>
-    <label class="check"><input type="checkbox" name="warmup" ${d.warmup ? 'checked' : ''}> ウォームアップ</label>
+    <div class="field"><label>フォームのポイント(種目画面に表示)</label><textarea name="form" rows="2">${esc(d.form)}</textarea></div>
+    <label class="check"><input type="checkbox" name="enabled" ${d.enabled ? 'checked' : ''}> メニューに入れる</label>
+    <label class="check"><input type="checkbox" name="warmup" ${d.warmup ? 'checked' : ''}> ウォームアップ(集計・自己ベストに含めない)</label>
     <button type="submit" class="btn primary block" style="margin-top:8px">保存</button>
     ${isNew ? '' : '<button type="button" class="btn ghost block danger" data-act="delEx">削除</button>'}
   </form>`);
@@ -1299,7 +1312,7 @@ async function importJson(file) {
 function render() {
   document.documentElement.dataset.theme = S.settings.theme;
   $('#themeColor').setAttribute('content', S.settings.theme === 'dark' ? '#0d0d0d' : '#ffffff');
-  $('#weekBadge').textContent = `WEEK ${String(progWeek()).padStart(2,'0')}`;
+  $('#weekBadge').textContent = `第${progWeek()}週`;
   if (!['train','review','settings'].includes(U.tab)) U.tab = 'train';
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === U.tab));
   const fn = {train:vTrain, review:vReview, settings:vSettings}[U.tab];
@@ -1335,7 +1348,7 @@ document.addEventListener('click', async ev => {
       if (typeof v === 'number' && v > 0) { s.r = v; save(); render(); }
       break;
     }
-    case 'cardioDone': A.cardio.done = !A.cardio.done; if (A.cardio.done) { A.room = null; toast('ランニングマシン完了'); } save(); render(); window.scrollTo(0, 0); break;
+    case 'cardioDone': A.cardio.done = !A.cardio.done; if (A.cardio.done) { A.room = null; toast(`${A.cardio.type} 完了`); } save(); render(); window.scrollTo(0, 0); break;
     case 'cardioRoom': if (!A.cardio.done) stopTimer(); A.room = 'cardio'; save(); render(); window.scrollTo(0, 0); break;
     case 'cardioMinAdj': A.cardio.min = Math.max(0, (+A.cardio.min || 0) + (+ds.d)); save(); render(); break;
     case 'timerToggle': T.end > Date.now() ? stopTimer() : startTimer(); break;
@@ -1343,11 +1356,11 @@ document.addEventListener('click', async ev => {
     case 'finish': finishSession(); break;
     case 'shareDay': shareDay(ds.id); break;
     case 'closeDone': U.doneId = null; render(); window.scrollTo(0, 0); break;
-    case 'discard': if (await ask('今回の記録を破棄しますか?(取り消せません)', '破棄する', true)) { S.active = null; stopTimer(); releaseWake(); save(); render(); window.scrollTo(0, 0); toast('破棄しました'); } break;
+    case 'discard': if (await ask('今回のトレーニングを記録せずにやめますか?(入力した内容は消えます)', '記録せずにやめる', true)) { S.active = null; stopTimer(); releaseWake(); save(); render(); window.scrollTo(0, 0); toast('記録せずに終了しました'); } break;
     case 'addExToSession': {
       const used = A.exercises.map(e => e.exId);
       const list = allDefs().filter(d => !used.includes(d.id));
-      openSheet(`<h3>種目を追加</h3>${list.map(d => `<button class="btn ghost block" data-act="addExPick" data-id="${d.id}" style="justify-content:space-between"><span>${esc(d.name)}</span><small class="muted">${isNum(d.weight) ? fmt(d.weight)+'kg' : ''}</small></button>`).join('') || '<div class="empty">追加できる種目がありません。「メニュー」タブで新しい種目を登録できます。</div>'}`);
+      openSheet(`<h3>種目を追加</h3>${list.map(d => `<button class="btn ghost block" data-act="addExPick" data-id="${d.id}" style="justify-content:space-between"><span>${esc(d.name)}</span><small class="muted">${isNum(d.weight) ? fmt(d.weight)+'kg' : ''}</small></button>`).join('') || '<div class="empty">追加できる種目がありません。「設定」タブで新しい種目を登録できます。</div>'}`);
       break;
     }
     case 'addExPick': { const d = findDef(ds.id); if (d) { A.exercises.push(buildEx(d)); A.room = A.exercises.length - 1; save(); closeSheet(); render(); window.scrollTo(0, 0); } break; }
