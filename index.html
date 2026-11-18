@@ -326,6 +326,8 @@ h3{font-weight:700;font-size:20px;letter-spacing:.06em;font-style:normal}
 .seg2 button,.seg3 button{border:0;border-radius:12px;background:transparent;color:var(--sub);font-weight:700;transform:none;box-shadow:none;letter-spacing:.06em}
 .seg2 button.on{background:var(--card);color:var(--ink);box-shadow:0 2px 10px rgba(11,13,18,.10)}
 .hero .seg2{margin-bottom:16px}
+.plan-pick button{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-chips{margin:0 0 4px}
 .hero .seg2 button{font-family:var(--num);font-weight:600;font-size:24px;min-height:50px;line-height:1;letter-spacing:.04em}
 .seg2 small{font-family:var(--en);font-size:8px;letter-spacing:.3em;color:var(--blue);margin-top:2px}
 .hero .seg2 button.on small{color:var(--blue)}
@@ -572,6 +574,90 @@ body{overflow-x:clip}
 .pick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:-4px 0 16px}
 .pick button{height:52px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-family:var(--num);font-weight:600;font-size:22px;color:var(--ink)}
 .pick button.on{background:var(--grad);border:0;color:#fff}
+/* ===== メニューの色分け ===== */
+.pbadge{--pc:#1f5eff;display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 7px;border-radius:8px;background:var(--pc);color:#fff;font-family:var(--num),var(--jp);font-weight:600;font-size:15px;line-height:1;letter-spacing:.02em;vertical-align:middle;white-space:nowrap;max-width:9em;overflow:hidden;text-overflow:ellipsis;font-style:normal}
+.pbadge.sm{min-width:20px;height:20px;font-size:12px;border-radius:6px;padding:0 5px}
+.pbadge.lg{min-width:44px;height:44px;font-size:24px;border-radius:14px;padding:0 10px;box-shadow:0 6px 16px color-mix(in srgb,var(--pc) 35%,transparent)}
+.tint .letter{background:linear-gradient(120deg,var(--pc) 0%,color-mix(in srgb,var(--pc) 55%,#fff) 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 6px 18px color-mix(in srgb,var(--pc) 30%,transparent))}
+.plan-tabs{display:flex;gap:8px;margin:16px 0 6px}
+.ptab{--pc:#1f5eff;flex:1;min-width:0;border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:9px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink);transition:transform .1s,box-shadow .2s}
+.ptab:active{transform:scale(.97)}
+.ptab b{font-family:var(--num),var(--jp);font-weight:600;font-size:26px;line-height:1;color:var(--pc);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ptab small{font-size:10px;font-weight:700;color:var(--sub);letter-spacing:.04em;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ptab.next:not(.on) small{color:var(--pc)}
+.ptab.on{background:var(--pc);border-color:var(--pc);box-shadow:0 8px 20px color-mix(in srgb,var(--pc) 35%,transparent)}
+.ptab.on b,.ptab.on small{color:#fff}
+.ptab.add{border-style:dashed;color:var(--sub)}
+.ptab.add b{color:var(--sub);font-family:var(--jp);font-weight:400}
+.plan-tabs.compact{margin:0 0 10px;flex-wrap:wrap}
+.plan-tabs.compact .ptab{flex:1 1 64px;padding:8px 4px 7px}
+.plan-tabs.compact .ptab b{font-size:22px}
+.list-head{display:flex;align-items:center;gap:8px;padding:12px 18px 10px;border-bottom:1px solid var(--line);font-size:13px;font-weight:700}
+.list-head span:last-child{margin-left:auto;color:var(--sub);font-weight:600;font-size:12px}
+.card.accent{border-top:3px solid var(--pc)}
+.prog-l{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:700;color:var(--sub);margin:-4px 0 6px}
+.prog-l b{font-family:var(--num);font-size:20px;color:var(--ink);font-weight:600}
+.tint .progress i{background:var(--pc);box-shadow:0 0 10px color-mix(in srgb,var(--pc) 60%,transparent)}
+.sess-title .pbadge{margin-left:10px}
+.cd.has.pc{background:var(--pc)!important;color:#fff!important;box-shadow:0 6px 14px color-mix(in srgb,var(--pc) 30%,transparent)}
+.cd.has.pc b{color:rgba(255,255,255,.85)}
+.cal-leg{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--sub);font-weight:700;align-items:center}
+.cal-leg span{display:inline-flex;align-items:center;gap:6px}
+.hist-h b .pbadge{margin-left:6px}
+.done-no .pbadge{margin:0 4px;font-size:14px}
+.plan-edit{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.plan-edit div{flex:1;min-width:0}
+.plan-edit div b{display:block;font-size:17px}
+.plan-edit div small{color:var(--sub);font-size:12px}
+.mno{font-family:var(--num);font-weight:600;color:var(--pc);margin-right:8px;font-size:15px}
+.mrow-btns button{color:var(--ink);opacity:.55}
+.inplans{display:inline-flex;gap:3px;margin-left:6px;vertical-align:1px}
+.inplans .pbadge{min-width:16px;height:16px;font-size:10px;border-radius:5px;padding:0 4px}
+/* ===== 日本語の改行:文節の途中で折り返さない ===== */
+.ja-wrap body{word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+.ja-wrap textarea,.ja-wrap input{word-break:normal}
+.dlg-msg,.toast,.empty,.done-sub,.ad-s,.stale,.sg-msg{text-wrap:balance}
+p,.muted,.hist-b,.plan-edit small{text-wrap:pretty}
+.toast{width:max-content;max-width:calc(100vw - 48px);border-radius:20px;line-height:1.5;padding:10px 18px}
+.dlg-msg{margin:0 0 6px;font-size:17px;line-height:1.55;letter-spacing:.02em}
+.dlg-sub{margin:0 0 4px;text-align:center;color:var(--sub);font-size:13px;font-weight:600;line-height:1.6}
+.dlg-btns{margin-top:18px}
+.dlg-btns .btn{white-space:nowrap;min-width:0;padding-left:10px;padding-right:10px;letter-spacing:.04em}
+.mrow-main b,.rb-main b{line-height:1.35}
+.timer.over .t-main{background:#d23b4b!important;border-color:#d23b4b!important;color:#fff!important;animation:pulse .6s infinite alternate}
+.timer.over .t-main b{color:#fff!important;background:none!important;-webkit-background-clip:initial!important;font-family:var(--jp);font-size:20px;letter-spacing:.08em}
+.timer.over .t-main span{display:none}
+.sound-note{margin-top:12px;background:var(--soft);border-radius:14px;padding:12px 14px;font-size:12px;color:var(--sub);line-height:1.6}
+.sound-note>b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}
+.sound-note ul{margin:0;padding-left:1.2em}
+.sound-note li{margin:2px 0}
+.sound-note li b{color:var(--ink)}
+.hero-m small{white-space:nowrap}
+.mrow-btns button{width:36px}
+.mname{display:flex!important;align-items:baseline}
+.mname .mno{flex:none}
+.mname span:last-child{min-width:0}
+.mrow .tg{margin-right:12px}
+.mrow-main{padding-right:6px}
+/* 小さい画面(iPhone SE など) */
+@media (max-width:374px){
+  .band span{letter-spacing:.18em;font-size:9px}
+  .band b{letter-spacing:.02em;font-size:11px}
+  .hero .letter{font-size:112px}
+  .hero-m b{letter-spacing:.3em}
+  .hero-m small{letter-spacing:.06em}
+  .wval input{font-size:60px}
+  .wbox button{width:54px!important;height:54px!important}
+  .mrow-btns button{width:26px}
+  .mrow .tg{min-width:46px;letter-spacing:.06em;margin:0 8px 0 4px}
+  .mrow-main{padding-left:12px}
+  .mno{margin-right:6px}
+  .mrow-main b{font-size:14px;letter-spacing:0}
+  .mrow-main small{letter-spacing:0}
+  .ib-v{font-size:17px}
+  .room-name{font-size:24px}
+  .plan-tabs.compact .ptab{flex-basis:52px}
+}
 </style>
 </head>
 <body>
@@ -597,6 +683,36 @@ const KEY = 'kintore.v1';
 const DOW = ['日','月','火','水','木','金','土'];
 const ARW = {up:'▲', down:'▼', keep:'', hold:'■', new:''};
 const $ = s => document.querySelector(s);
+/* 日本語を文節ごとに区切って、文節の境目(<wbr>)でだけ改行させる */
+const SEG = (() => { try { return new Intl.Segmenter('ja', {granularity:'word'}); } catch (e) { return null; } })();
+if (SEG) document.documentElement.classList.add('ja-wrap');
+const JA = /[぀-ヿ㐀-鿿]/;
+const NOHEAD = /^[ぁ-ゟー々、。,.!?!?::;・)\]）」』】〉》%％〜~…]/;  // 行頭に来てはいけない・前にくっつく文字
+function phrases(text) {
+  const out = []; let cur = '', prev = '';
+  for (const {segment} of SEG.segment(text)) {
+    const sp = /^\s+$/.test(segment) || /^\s+$/.test(prev);
+    // 文節の切れ目 = 句読点のあと、または「ひらがなで終わる語」のあとに漢字・カタカナ・英数字が来たところ
+    const brk = cur && !sp && !/[(\[（「『【〈《]$/.test(prev)
+      && ((/[、。!?!?]$/.test(prev) && !/^[、。,.!?!?)\]）」』】〉》]/.test(segment)) || (/[ぁ-ゟ]$/.test(prev) && !NOHEAD.test(segment)));
+    if (brk || (cur && !sp && /^[(\[（「『【〈《]/.test(segment))) { out.push(cur); cur = ''; }  // カッコの前でも区切れる
+    cur += segment; prev = segment;
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+function wrapJa(root) {
+  if (!SEG || !root) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), list = [];
+  while (w.nextNode()) { const n = w.currentNode, p = n.parentElement;
+    if (p && n.nodeValue.length > 3 && JA.test(n.nodeValue) && !p.closest('svg,textarea,script,style,select,option')) list.push(n); }
+  list.forEach(n => {
+    const ps = phrases(n.nodeValue); if (ps.length < 2) return;
+    const f = document.createDocumentFragment();
+    ps.forEach((t, k) => { if (k) f.appendChild(document.createElement('wbr')); f.appendChild(document.createTextNode(t)); });
+    n.replaceWith(f);
+  });
+}
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const r2 = n => Math.round(n*100)/100;
@@ -645,12 +761,18 @@ function GYM_EXTRA() {
 }
 /* 新規ユーザーの初期メニュー:種目名だけ用意し、重量は空(最初のトレーニングで入力) */
 function NEW_MENU() { return LEGACY_MENU().map(d => ({...d, weight:null})); }
+/* メニュー(A・B・C…):種目一覧から使う種目と順番を選んだもの。重量や履歴は種目ごとに共通 */
+function newPlan(id, name, ex = [], cardio = {type:'', note:'', min:15}, c = 0) {
+  return {id, name, c, ex, cardio:{type:'', note:'', min:15, ...cardio}};
+}
+/* メニューごとの色(A=青、B=オレンジ、C=緑…) */
+const PLAN_COLORS = ['#1f5eff', '#ff7a1a', '#12b886', '#8b5cf6', '#e64980', '#0ea5b7', '#f59f00', '#5c6b7a'];
 function defaultState() {
   return {
-    v: 6,
+    v: 7,
     settings: {startDate:today(), timer:90, theme:'light', sound:true, autoProg:false},
-    menus: {A: NEW_MENU(), B: []},
-    cardioPlan: {type:'', note:'', min:15},
+    menus: {A: NEW_MENU(), B: []},   // menus.A = 種目の一覧(全メニュー共通)
+    plans: [newPlan('A', 'A', NEW_MENU().filter(d => d.enabled).map(d => d.id), {type:'', note:'', min:15})],
     sessions: [],
     active: null
   };
@@ -690,9 +812,16 @@ function migrate(s) {
     s.v = 4;
   }
   if (s.v < 6) { s.settings.timer = 90; s.v = 6; }  // 休憩の初期値を90秒に
-  s.cardioPlan = s.cardioPlan || LEGACY_CARDIO();
-  if (/^競歩/.test(s.cardioPlan.type || '')) s.cardioPlan = {...LEGACY_CARDIO(), min:s.cardioPlan.min || 15};
-  if (s.cardioPlan.note == null) s.cardioPlan.note = '';
+  if (!Array.isArray(s.plans) || !s.plans.length) {  // 1つだけのメニュー → メニューA に移行
+    let cp = s.cardioPlan || LEGACY_CARDIO();
+    if (/^競歩/.test(cp.type || '')) cp = {...LEGACY_CARDIO(), min:cp.min || 15};
+    if (cp.note == null) cp.note = '';
+    s.plans = [newPlan('A', 'A', s.menus.A.filter(d => d.enabled).map(d => d.id), cp)];
+  }
+  delete s.cardioPlan;
+  const have = new Set([...s.menus.A, ...s.menus.B].map(d => d.id));
+  s.plans = s.plans.map((p, k) => newPlan(p.id || uid(), String(p.name || p.id || 'A'), (Array.isArray(p.ex) ? p.ex : []).filter(id => have.has(id)), p.cardio || {}, isNum(p.c) ? +p.c : k));
+  s.v = 7;
   return s;
 }
 function load() {
@@ -704,11 +833,32 @@ function save() {
   try { localStorage.setItem(KEY, JSON.stringify(S)); }
   catch (e) { toast('保存に失敗しました(容量不足の可能性)'); }
 }
-const U = {tab:'train', calY:null, calM:null, chartEx:null, chartMode:'max', openHist:null, editing:null, doneId:null};
+const U = {tab:'train', calY:null, calM:null, chartEx:null, chartMode:'max', openHist:null, editing:null, doneId:null, plan:null};
 
 /* ========== 種目・履歴・提案ロジック ========== */
 const allDefs = () => [...S.menus.A, ...S.menus.B];
 const findDef = id => allDefs().find(d => d.id === id) || null;
+const planById = id => S.plans.find(p => p.id === id) || null;
+const planDefs = p => p.ex.map(findDef).filter(Boolean);
+/* 次にやるメニュー:最後にやったメニューの次(A→B→C→A…) */
+function nextPlanId() {
+  for (let i = S.sessions.length - 1; i >= 0; i--) {
+    const k = S.plans.findIndex(p => p.id === S.sessions[i].menu);
+    if (k >= 0) return S.plans[(k + 1) % S.plans.length].id;
+  }
+  return S.plans[0].id;
+}
+/* いま選んでいるメニュー(トレ画面・設定画面で共通) */
+function curPlan() { let p = planById(U.plan); if (!p) { p = planById(nextPlanId()); U.plan = p.id; } return p; }
+const multiPlan = () => S.plans.length > 1;
+const sessPlanName = s => (planById(s.menu) || {}).name || s.menuName || '';
+const planColor = p => PLAN_COLORS[(p && isNum(p.c) ? +p.c : 0) % PLAN_COLORS.length];
+const pcStyle = p => p ? `style="--pc:${planColor(p)}"` : '';
+const pbadge = (p, cls = '') => p ? `<span class="pbadge ${cls}" ${pcStyle(p)}>${esc(p.name)}</span>` : '';
+/* 履歴の1回分のバッジ(メニューを消していたら名前だけ灰色で) */
+const sessBadge = (s, cls = 'sm') => { const p = planById(s.menu); return p ? pbadge(p, cls) : s.menuName ? `<span class="pbadge ${cls}" style="--pc:var(--sub)">${esc(s.menuName)}</span>` : ''; };
+function lastDate(p) { for (let i = S.sessions.length - 1; i >= 0; i--) if (S.sessions[i].menu === p.id) return S.sessions[i].date; return null; }
+const agoText = d => { const n = daysBetween(d, today()); return n <= 0 ? '今日' : n === 1 ? '昨日' : n + '日前'; };
 const doneSets = e => (e.sets || []).filter(s => s.done);
 const recWeight = e => { const d = doneSets(e); return d.length ? Math.max(...d.map(s => +s.w || 0)) : null; };
 const exVolume = e => e.warmup ? 0 : doneSets(e).reduce((a, s) => a + (+s.w||0)*(+s.r||0), 0);
@@ -766,22 +916,23 @@ function buildEx(d) {
     step:+d.step || 2.5, w: sg.w == null ? '' : sg.w, sets, aborted:false, skipped:false, sugg:sg,
     prev: prev ? {date:prev.date, text:setsText(prev)} : null};
 }
-function startSession(menu) {
-  const defs = S.menus[menu].filter(d => d.enabled);
-  if (!defs.length) { toast('このメニューに種目がありません'); return; }
-  S.active = {id:uid(), date:today(), menu, startedAt:Date.now(), exercises:defs.map(buildEx),
-    cardio:{type:S.cardioPlan.type || '', note:S.cardioPlan.note || '', min:+S.cardioPlan.min || 0, done:false}, timerEnd:0, room:null, v:5};
+function startSession(planId) {
+  const p = planById(planId); if (!p) return;
+  const defs = planDefs(p), cp = p.cardio;
+  if (!defs.length && !cp.type) { toast('このメニューに種目がありません'); return; }
+  S.active = {id:uid(), date:today(), menu:p.id, menuName:p.name, startedAt:Date.now(), exercises:defs.map(buildEx),
+    cardio:{type:cp.type || '', note:cp.note || '', min:+cp.min || 0, done:false}, timerEnd:0, room:null, v:5};
   save(); wake(); render(); window.scrollTo(0,0);
 }
 const exDone = e => e.aborted || e.skipped || (e.sets.length > 0 && e.sets.every(s => s.done));
 async function finishSession() {
   const A = S.active;
   const any = A.exercises.some(e => e.sets.some(s => s.done)) || (A.cardio && A.cardio.done);
-  if (!any && !(await ask('完了したセットがありません。記録せずに終わりますか?', '終わる'))) return;
+  if (!any && !(await ask(['記録せずに終わりますか?', '完了したセットがまだありません'], '終わる'))) return;
   const left = A.exercises.filter(e => !exDone(e)).length + (A.cardio && A.cardio.type && !A.cardio.done ? 1 : 0);
-  if (any && left && !(await ask(`まだ${left}種目残っています。終わりますか?`, '終わる'))) return;
+  if (any && left && !(await ask(['トレーニングを終わりますか?', `まだ${left}種目残っています`], '終わる'))) return;
   if (!any) { S.active = null; stopTimer(); releaseWake(); save(); render(); return; }
-  const sess = {id:A.id, date:A.date, menu:A.menu, startedAt:A.startedAt, finishedAt:Date.now(),
+  const sess = {id:A.id, date:A.date, menu:A.menu, menuName:A.menuName || '', startedAt:A.startedAt, finishedAt:Date.now(),
     cardio: A.cardio && A.cardio.done ? {type:A.cardio.type + (A.cardio.note ? '(' + A.cardio.note + ')' : ''), min:A.cardio.min} : {type:'', min:0},
     exercises: A.exercises.map(e => ({exId:e.exId, name:e.name, warmup:e.warmup,
       repMin:e.repMin, repMax:e.repMax, targetSets:e.targetSets, step:e.step, aborted:e.aborted,
@@ -793,7 +944,7 @@ async function finishSession() {
   });
   S.sessions.push(sess);
   S.sessions.sort((a, b) => a.date.localeCompare(b.date) || a.startedAt - b.startedAt);
-  S.active = null; U.doneId = sess.id; stopTimer(); releaseWake(); save(); render(); window.scrollTo(0, 0);
+  S.active = null; U.doneId = sess.id; U.plan = null; stopTimer(); releaseWake(); save(); render(); window.scrollTo(0, 0);
 }
 /* 完了画面 */
 function vComplete(sess) {
@@ -802,7 +953,7 @@ function vComplete(sess) {
   const dur = Math.max(1, Math.round((sess.finishedAt - sess.startedAt) / 60000));
   return `<div class="done-screen">
     <div class="done-rings"></div>
-    <div class="done-no">SESSION ${sessNo(no)} · ${md(sess.date)}</div>
+    <div class="done-no">SESSION ${sessNo(no)}${multiPlan() ? sessBadge(sess, '') : ''} · ${md(sess.date)}</div>
     <div class="done-title">COMPLETE</div>
     <div class="done-sub">おつかれさまでした</div>
     <div class="stats3"><div><b>${dur}</b>分</div><div><b>${sets}</b>セット</div><div><b>${Math.round(sessVolume(sess)).toLocaleString()}</b>kg</div></div>
@@ -851,70 +1002,111 @@ async function downloadRecent() {
 }
 
 /* ========== タイマー ========== */
-const T = {end:0, dur:90, iv:null};
+const T = {end:0, dur:90, iv:null, sched:null};
 /* ========== アラーム音 ==========
    音楽アプリの再生を止めないための方針:
    ・<audio> 要素は使わない(メディア要素は他アプリの音楽を止めることがある)
    ・Web Audio だけで鳴らす
    ・iPhone(Safari 17+)では audioSession を 'ambient' にして、他アプリの音と「混ぜて」鳴らす */
-let AC = null;
+let AC = null, acStale = false;  // acStale:ほかのアプリや画面ロックから戻った → 次のタップで作り直す
 function mixWithOtherAudio() {
   try { if (navigator.audioSession && navigator.audioSession.type !== 'ambient') navigator.audioSession.type = 'ambient'; } catch (e) {}
 }
 mixWithOtherAudio();
-/* 画面タップのときに AudioContext を起こしておく(iPhone は操作の中でしか音を出せないため) */
+/* AudioContext を新しく作る。iPhone では一度「中断(interrupted)」になった AudioContext は
+   resume しても無音のままになることがあるため、戻ってきたら作り直す */
+function newAC() {
+  cancelBeep();
+  try { if (AC && AC.state !== 'closed') AC.close(); } catch (e) {}
+  try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; }
+  acStale = false;
+}
+/* 画面タップのたびに呼ぶ:音を出せる状態にしておく(iPhone は操作の中でしか音を出せないため) */
 function unlockAudio() {
   mixWithOtherAudio();
   try {
-    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
-    if (AC.state !== 'running') {
-      AC.resume();
-      const src = AC.createBufferSource(); src.buffer = AC.createBuffer(1, 1, 22050); src.connect(AC.destination); src.start(0);
-    }
+    if (!AC || acStale || AC.state === 'closed' || AC.state === 'interrupted') newAC();
+    if (!AC) return;
+    if (AC.state !== 'running') AC.resume().then(() => { if (T.end > Date.now() && !T.sched) scheduleBeep(); }).catch(() => {});
+    const src = AC.createBufferSource(); src.buffer = AC.createBuffer(1, 1, 22050); src.connect(AC.destination); src.start(0);
+    if (T.end > Date.now() && !T.sched) scheduleBeep();
   } catch (e) {}
 }
-function beepWebAudio() {
-  if (!AC) return;
-  mixWithOtherAudio();
-  try { if (AC.state !== 'running') AC.resume(); } catch (e) {}
-  const t = AC.currentTime + .05;
+/* ピピピ・ピピピ を時刻 t0(AudioContext の時計)に鳴らす */
+function playPattern(t0) {
+  const nodes = [];
   [0, .28, .56, 1.1, 1.38, 1.66].forEach(o => {
     const os = AC.createOscillator(), g = AC.createGain();
     os.type = 'square'; os.frequency.value = 880;
-    g.gain.setValueAtTime(.0001, t+o); g.gain.exponentialRampToValueAtTime(.25, t+o+.02); g.gain.exponentialRampToValueAtTime(.0001, t+o+.2);
-    os.connect(g); g.connect(AC.destination); os.start(t+o); os.stop(t+o+.22);
+    g.gain.setValueAtTime(.0001, t0+o); g.gain.exponentialRampToValueAtTime(.32, t0+o+.02); g.gain.exponentialRampToValueAtTime(.0001, t0+o+.2);
+    os.connect(g); g.connect(AC.destination); os.start(t0+o); os.stop(t0+o+.22);
+    nodes.push(os);
   });
+  return nodes;
 }
+/* 休憩を始めた瞬間(=タップ中)に、終わる時刻の音を予約しておく。
+   タイマーの処理が遅れても、AudioContext の時計どおりに鳴る */
+function scheduleBeep() {
+  cancelBeep();
+  if (!S.settings.sound || !AC || AC.state !== 'running' || !T.end) return;
+  const sec = (T.end - Date.now()) / 1000; if (sec <= .3) return;
+  try { const at = AC.currentTime + sec; T.sched = {at, nodes:playPattern(at)}; } catch (e) { T.sched = null; }
+}
+function cancelBeep() {
+  if (!T.sched) return;
+  T.sched.nodes.forEach(n => { try { n.stop(0); n.disconnect(); } catch (e) {} });
+  T.sched = null;
+}
+function vibrate() { try { navigator.vibrate && navigator.vibrate([200, 80, 200, 80, 200, 300, 200, 80, 200, 80, 200]); } catch (e) {} }
+/* 今すぐ鳴らす。鳴らせたら true */
 function beep() {
-  if (!S.settings.sound) return;
-  try { navigator.vibrate && navigator.vibrate([200, 80, 200, 80, 200, 300, 200, 80, 200, 80, 200]); } catch (e) {}
-  try { beepWebAudio(); } catch (e) {}
+  if (!AC) return false;
+  mixWithOtherAudio();
+  try { if (AC.state !== 'running') AC.resume().catch(() => {}); } catch (e) {}
+  try { playPattern(AC.currentTime + .05); } catch (e) { return false; }
+  return AC.state === 'running';
 }
 function startTimer(sec) {
   sec = sec || S.settings.timer;
-  T.dur = sec; T.end = Date.now() + sec*1000;
+  T.dur = sec; T.end = Date.now() + sec*1000; U.restOver = false;
   if (S.active) { S.active.timerEnd = T.end; S.active.timerDur = sec; save(); }
   clearInterval(T.iv); T.iv = setInterval(tick, 250);
   const el = $('#timerBar'); el && el.classList.remove('ring');
+  scheduleBeep();
   tick();
 }
 function stopTimer() {
-  T.end = 0; clearInterval(T.iv);
+  T.end = 0; clearInterval(T.iv); cancelBeep(); U.restOver = false;
   if (S.active) { S.active.timerEnd = 0; save(); }
   tick();
 }
 function alarm() {
-  beep();
+  const sc = T.sched; T.sched = null;
+  let ok = false;
+  if (S.settings.sound) {
+    // 予約した音が時間どおりに鳴っていればそれでOK。鳴っていなければ(画面が消えていた等)今鳴らす
+    if (sc && AC && AC.state === 'running' && !document.hidden && AC.currentTime >= sc.at - .3) ok = true;
+    else { if (sc) sc.nodes.forEach(n => { try { n.stop(0); n.disconnect(); } catch (e) {} }); ok = !document.hidden && beep(); }
+    vibrate();
+  }
   const el = $('#timerBar'); if (el) { el.classList.add('ring'); setTimeout(() => el.classList.remove('ring'), 4000); }
+  if (S.settings.sound && !ok) {  // 音を出せなかったときは画面でしっかり知らせる
+    U.restOver = true; renderTimerShell();
+    if (!document.hidden) toast('休憩が終わりました', 4000);
+  }
 }
 function tick() {
-  const el = $('#timerBar'); if (!el || el.classList.contains('hidden')) { if (T.end && Date.now() >= T.end) { T.end = 0; clearInterval(T.iv); alarm(); } return; }
+  const el = $('#timerBar');
+  if (!el || el.classList.contains('hidden')) {
+    if (T.end && Date.now() >= T.end) { T.end = 0; clearInterval(T.iv); if (S.active) { S.active.timerEnd = 0; save(); } alarm(); }
+    return;
+  }
   let left = T.end ? T.end - Date.now() : 0;
   if (T.end && left <= 0) { T.end = 0; clearInterval(T.iv); left = 0; if (S.active) { S.active.timerEnd = 0; save(); } alarm(); }
-  const run = T.end > 0;
-  el.classList.toggle('run', run);
+  const run = T.end > 0, over = !run && U.restOver;
+  el.classList.toggle('run', run); el.classList.toggle('over', over);
   const sec = run ? Math.ceil(left/1000) : S.settings.timer;
-  const lb = $('#tLeft'); if (lb) lb.textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
+  const lb = $('#tLeft'); if (lb) lb.textContent = over ? '休憩終了' : `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
   const lab = $('#tLabel'); if (lab) lab.textContent = run ? '■' : '▶';
   const f = $('#tFill'); if (f) f.style.width = run ? (100 - left/(T.dur*10)) + '%' : '0';
 }
@@ -930,17 +1122,29 @@ function renderTimerShell() {
 
 /* ========== 画面を開いたまま(Wake Lock) ========== */
 let WL = null;
-async function wake() { try { if (S.active && 'wakeLock' in navigator && !WL) { WL = await navigator.wakeLock.request('screen'); WL.addEventListener('release', () => WL = null); } } catch (e) {} }
+async function wake() {
+  if (!S.active || WL || document.hidden) return;
+  if (!('wakeLock' in navigator)) { warnWake(); return; }
+  try { WL = await navigator.wakeLock.request('screen'); WL.addEventListener('release', () => WL = null); }
+  catch (e) { if (!document.hidden) warnWake(); }
+}
+/* 画面を点けたままにできない端末では、休憩中に画面が消えると音が鳴らないので一度だけ知らせる */
+function warnWake() {
+  if (U.wakeWarned) return; U.wakeWarned = true;
+  setTimeout(() => toast('この端末では画面が自動で消えることがあります。画面が消えている間は休憩終了の音が鳴りません', 5000), 600);
+}
 function releaseWake() { try { WL && WL.release(); } catch (e) {} WL = null; }
 
 /* ========== 共通UI ========== */
 let toastT = null;
-function toast(msg, ms = 2200) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms); }
+function toast(msg, ms = 2200) { const t = $('#toast'); t.textContent = msg; wrapJa(t); t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms); }
 /* アプリ内の確認ダイアログ(ブラウザの確認ダイアログはブロックされることがあるため使わない) */
 function ask(msg, ok = 'OK', danger = false, html = '') {
   return new Promise(res => {
     const d = $('#dlg'), okb = $('#dlgOk'), no = $('#dlgNo');
-    $('#dlgBody').innerHTML = `<p class="dlg-msg">${esc(msg)}</p>${html}`;
+    const [main, sub] = Array.isArray(msg) ? msg : [msg, ''];
+    $('#dlgBody').innerHTML = `<p class="dlg-msg">${esc(main)}</p>${sub ? `<p class="dlg-sub">${esc(sub).replace(/\n/g, '<br>')}</p>` : ''}${html}`;
+    wrapJa($('#dlgBody'));
     okb.textContent = ok; okb.classList.toggle('dlg-danger', danger);
     okb.style.display = ok ? '' : 'none';
     d.classList.remove('hidden');
@@ -949,22 +1153,24 @@ function ask(msg, ok = 'OK', danger = false, html = '') {
     d.onclick = ev => { const n = ev.target.closest('[data-pick]'); if (n) done(+n.dataset.pick); else if (ev.target === d) done(false); };
   });
 }
-function openSheet(html) { $('#sheetPanel').innerHTML = '<div class="grab"></div>' + html; $('#sheet').classList.remove('hidden'); }
+function openSheet(html) { $('#sheetPanel').innerHTML = '<div class="grab"></div>' + html; wrapJa($('#sheetPanel')); $('#sheet').classList.remove('hidden'); }
 function closeSheet() { $('#sheet').classList.add('hidden'); U.editing = null; }
 
 /* ========== 画面:トレ ========== */
 function vTrain() {
   if (S.active) return vActive();
   if (U.doneId) { const d = S.sessions.find(x => x.id === U.doneId); if (d) return vComplete(d); U.doneId = null; }
-  const defs = S.menus.A.filter(d => d.enabled), cp = S.cardioPlan;
+  const p = curPlan(), defs = planDefs(p), cp = p.cardio, nx = nextPlanId();
   return `
-  <section class="hero">
+  <section class="hero ${multiPlan() ? 'tint' : ''}" ${pcStyle(p)}>
     <div class="band"><span>NEXT SESSION</span><b>${rirMsg()}</b></div>
-    <div class="hero-m"><span class="letter">${sessNo(S.sessions.length + 1)}</span><div><b>SESSION</b><small>${defs.length}種目${cp.type ? ' + 有酸素' : ''}</small></div></div>
+    ${multiPlan() ? `<div class="plan-tabs">${S.plans.map(x => { const ld = lastDate(x); return `<button class="ptab ${x.id === p.id ? 'on' : ''} ${x.id === nx ? 'next' : ''}" ${pcStyle(x)} data-act="pickPlan" data-id="${x.id}"><b>${esc(x.name)}</b><small>${x.id === nx ? '次はこれ' : ld ? '前回 ' + mdShort(ld) : '未実施'}</small></button>`; }).join('')}</div>` : ''}
+    <div class="hero-m"><span class="letter">${sessNo(S.sessions.length + 1)}</span><div><b>SESSION</b><small>${multiPlan() ? pbadge(p, 'sm') + ' ' : ''}${defs.length}種目${cp.type ? ' + 有酸素' : ''}</small></div></div>
     <button class="btn primary big block" data-act="start"><span>START</span></button>
   </section>
   ${defs.some(d => !isNum(d.weight)) ? '<p class="muted" style="font-size:12px;margin:0 0 10px">重量が「—」の種目は、トレーニング中に入力してください。次回からは前回の重量が自動で入ります。</p>' : ''}
-  <div class="card p0">${defs.map(d => { const sg = suggest(d); return `<div class="plan-row"><span>${esc(d.name)}</span><b>${isNum(sg.w) ? fmt(sg.w)+'kg' : '—'}</b><i class="k ${sg.kind}">${ARW[sg.kind]}</i></div>`; }).join('')}${cp.type ? `<div class="plan-row"><span>${esc(cp.type)}${cp.note ? `<small style="display:block;color:var(--sub);font-size:12px">${esc(cp.note)}</small>` : ''}</span><b>${cp.min}分</b><i class="k"></i></div>` : ''}</div>
+  ${!defs.length && !cp.type ? '<div class="card"><div class="empty">このメニューにはまだ種目がありません<br>「設定」タブで種目を ON にしてください</div></div>' : ''}
+  <div class="card p0 ${multiPlan() ? 'accent' : ''}" ${pcStyle(p)} ${!defs.length && !cp.type ? 'hidden style="display:none"' : ''}>${multiPlan() ? `<div class="list-head">${pbadge(p, 'sm')}<span>メニュー${esc(p.name)}の内容</span><span>${lastDate(p) ? '前回 ' + mdShort(lastDate(p)) + '・' + agoText(lastDate(p)) : 'まだやっていません'}</span></div>` : ''}${defs.map(d => { const sg = suggest(d); return `<div class="plan-row"><span>${esc(d.name)}</span><b>${isNum(sg.w) ? fmt(sg.w)+'kg' : '—'}</b><i class="k ${sg.kind}">${ARW[sg.kind]}</i></div>`; }).join('')}${cp.type ? `<div class="plan-row"><span>${esc(cp.type)}${cp.note ? `<small style="display:block;color:var(--sub);font-size:12px">${esc(cp.note)}</small>` : ''}</span><b>${cp.min}分</b><i class="k"></i></div>` : ''}</div>
   ${defs.some(d => ['up','down'].includes(suggest(d).kind)) ? '<p class="muted" style="font-size:12px;margin:8px 0 0">▲ 前回より重量アップ ▼ 重量ダウン</p>' : ''}`;
 }
 function vActive() {
@@ -977,9 +1183,11 @@ function vActive() {
   const nextI = A.exercises.findIndex(e => !exDone(e));
   const allDone = nextI < 0 && (!hasCardio || A.cardio.done);
   return `
+  <div class="${multiPlan() && planById(A.menu) ? 'tint' : ''}" ${pcStyle(planById(A.menu))}>
   <div class="sess-head"><div class="sess-title"><span class="letter">${sessNo(S.sessions.length + 1)}</span>SESSION</div><div class="sess-sub"><b class="red">${rirMsg()}</b></div></div>
   ${A.date !== today() ? `<div class="stale">${md(A.date)}に始めたトレーニングの続きです。終わっていれば FINISH を押してください。</div>` : ''}
-  <div class="progress"><i style="width:${total ? done/total*100 : 0}%"></i></div>
+  <div class="prog-l"><span>${multiPlan() && planById(A.menu) ? pbadge(planById(A.menu), 'sm') + ' メニュー' + esc(planById(A.menu).name) : '進み具合'}</span><span><b>${done}</b> / ${total} 種目 完了</span></div>
+  <div class="progress"><i style="width:${total ? done/total*100 : 0}%"></i></div></div>
   ${allDone ? `<div class="all-done"><div class="ad-t">ALL CLEAR</div><div class="ad-s">すべての種目が終わりました</div>
     <button class="btn primary big block" data-act="finish"><span>FINISH</span></button></div>` : ''}
   <div class="rooms">
@@ -1025,7 +1233,7 @@ function vRoom(i) {
     <div class="room-target"><b>${rr(e)}</b>回 × <b>${total}</b>セット${def && def.memo ? `<span class="memo-tag">${esc(def.memo)}</span>` : ''}</div>
     ${def && def.form ? `<p class="muted" style="font-size:13px;margin:-4px 0 12px;white-space:pre-wrap">${esc(def.form)}</p>` : ''}
     <div class="ex-info">
-      <div class="ib"><div class="ib-l">前回</div><div class="ib-v">${e.prev ? esc(e.prev.text) : '—'}</div></div>
+      <div class="ib"><div class="ib-l">前回</div><div class="ib-v">${e.prev ? esc(e.prev.text).replace(/× (.+)$/, '×<wbr> <span style="white-space:nowrap">$1</span>') : '—'}</div></div>
       <div class="ib sg"><div class="ib-l">${S.settings.autoProg ? '推奨' : '今回'}</div><div class="ib-v">${isNum(sg.w) ? fmt(sg.w) + 'kg' : '—'} ${ARW[sg.kind] || ''}</div></div>
     </div>
     ${sg.msg || sg.warn ? `<div class="sg-msg ${sg.kind}">${esc(sg.msg || '')}${sg.msg && sg.warn ? ' / ' : ''}${sg.warn ? '⚠ ' + esc(sg.warn) : ''}</div>` : ''}
@@ -1105,7 +1313,7 @@ function calendarHtml() {
   const now = new Date();
   if (U.calY == null) { U.calY = now.getFullYear(); U.calM = now.getMonth(); }
   const y = U.calY, m = U.calM, first = new Date(y, m, 1), offset = (first.getDay() + 6) % 7, days = new Date(y, m+1, 0).getDate();
-  const byDate = {}; S.sessions.forEach(s => (byDate[s.date] = byDate[s.date] || []).push('●'));
+  const byDate = {}; S.sessions.forEach(s => (byDate[s.date] = byDate[s.date] || []).push(s));
   const rows = Math.ceil((offset + days)/7), t = today();
   let h = `<div class="cal-nav"><button data-act="calNav" data-d="-1" aria-label="前の月">‹</button><b>${y}年${m+1}月</b><button data-act="calNav" data-d="1" aria-label="次の月">›</button></div>
     <div class="cal-h">${['月','火','水','木','金','土','日'].map(d => `<span>${d}</span>`).join('')}<span>回/週</span></div>`;
@@ -1114,9 +1322,14 @@ function calendarHtml() {
     for (let k = 0; k < 7; k++) {
       const d = new Date(y, m, 1 - offset + r*7 + k), s = ymd(d), ms = byDate[s] || [];
       cnt += ms.length;
-      h += `<div class="cd ${d.getMonth() !== m ? 'out' : ''} ${s === t ? 'today' : ''} ${ms.length ? 'has' : ''}"><span>${d.getDate()}</span>${ms.length ? `<b>${ms.join('')}</b>` : ''}</div>`;
+      const pl = multiPlan() && ms.length ? planById(ms[ms.length - 1].menu) : null;
+      h += `<div class="cd ${d.getMonth() !== m ? 'out' : ''} ${s === t ? 'today' : ''} ${ms.length ? 'has' : ''} ${pl ? 'pc' : ''}" ${pcStyle(pl)}><span>${d.getDate()}</span>${ms.length ? `<b>${ms.map(() => '●').join('')}</b>` : ''}</div>`;
     }
     h += `<div class="cnt ${cnt >= 2 ? 'good' : ''}">${cnt}</div></div>`;
+  }
+  if (multiPlan()) {
+    const ym = `${y}-${String(m + 1).padStart(2, '0')}`;
+    h += `<div class="cal-leg">${S.plans.map(p => `<span>${pbadge(p, 'sm')}${S.sessions.filter(s => s.menu === p.id && s.date.startsWith(ym)).length}回</span>`).join('')}<span style="margin-left:auto">今月</span></div>`;
   }
   return h;
 }
@@ -1146,7 +1359,7 @@ function vReview() {
   <h2>週の総挙上量</h2>
   <div class="card"><p class="muted" style="margin:0 0 4px;font-size:12px">今週の「重量 × 回数」の合計</p><div style="font-size:26px;font-weight:900;margin-bottom:6px">${Math.round(thisVol).toLocaleString()}<small style="font-size:14px"> kg</small></div>${barChart(vol)}</div>
   <h2>履歴</h2>
-  <div class="card p0">${hist.map(s => `<div class="hist"><button class="hist-h" data-act="toggleHist" data-id="${s.id}"><span class="letter">${sessNo(S.sessions.indexOf(s) + 1)}</span><div><b>${md(s.date)}</b><small>${sessVolume(s) ? Math.round(sessVolume(s)).toLocaleString() + 'kg' : ''}${s.cardio && s.cardio.type ? (sessVolume(s) ? ' · ' : '') + '有酸素 ' + s.cardio.min + '分' : ''}</small></div><span class="muted">${U.openHist === s.id ? '▲' : '▼'}</span></button>
+  <div class="card p0">${hist.map(s => `<div class="hist"><button class="hist-h ${multiPlan() && planById(s.menu) ? 'tint' : ''}" ${pcStyle(planById(s.menu))} data-act="toggleHist" data-id="${s.id}"><span class="letter">${sessNo(S.sessions.indexOf(s) + 1)}</span><div><b>${md(s.date)}${multiPlan() ? sessBadge(s) : ''}</b><small>${sessVolume(s) ? Math.round(sessVolume(s)).toLocaleString() + 'kg' : ''}${s.cardio && s.cardio.type ? (sessVolume(s) ? ' · ' : '') + '有酸素 ' + s.cardio.min + '分' : ''}</small></div><span class="muted">${U.openHist === s.id ? '▲' : '▼'}</span></button>
     ${U.openHist === s.id ? `<div class="hist-b">${s.exercises.map(e => `<div><b>${esc(e.name)}</b> ${esc(setsText(e))}</div>`).join('')}
       <div class="muted">${[s.cardio && s.cardio.type && s.cardio.type !== 'なし' ? esc(s.cardio.type) + ' ' + (s.cardio.min||0) + '分' : ''].filter(Boolean).join(' · ')}</div>
       <div class="row" style="margin-top:10px"><button class="btn sm dark" data-act="shareDay" data-id="${s.id}">共有(CSV)</button><button class="btn sm ghost danger" data-act="delSession" data-id="${s.id}">削除</button></div></div>` : ''}</div>`).join('') || '<div class="empty">—</div>'}</div>`;
@@ -1163,7 +1376,7 @@ function coachSummary() {
   ss.forEach(s => {
     const c = [];
     if (s.cardio && s.cardio.type && s.cardio.type !== 'なし') c.push(`有酸素:${s.cardio.type}${s.cardio.min ? ' ' + s.cardio.min + '分' : ''}`);
-    L.push(`${md(s.date)}${c.length ? '(' + c.join('・') + ')' : ''}`);
+    L.push(`${md(s.date)}${multiPlan() && sessPlanName(s) ? ' [メニュー' + sessPlanName(s) + ']' : ''}${c.length ? '(' + c.join('・') + ')' : ''}`);
     s.exercises.forEach(e => { if (!e.warmup) L.push(` - ${e.name}:${setsText(e)}`); });
   });
   L.push('', `■ 種目別の推移(期間内の最大重量 最初→最新 / 次回${S.settings.autoProg ? 'の推奨' : '(重量キープ設定)'})`);
@@ -1184,24 +1397,29 @@ async function copyText(t) {
 
 /* ========== 画面:メニュー・設定 ========== */
 function vSettings() {
-  const st = S.settings, m = 'A';
+  const st = S.settings, m = 'A', p = curPlan(), cp = p.cardio;
   return `
   <h2>メニュー</h2>
+  <div class="plan-tabs compact">${S.plans.map(x => `<button class="ptab ${x.id === p.id ? 'on' : ''}" ${pcStyle(x)} data-act="pickPlan" data-id="${x.id}"><b>${esc(x.name)}</b><small>${x.ex.length}種目</small></button>`).join('')}<button class="ptab add" data-act="addPlan"><b>+</b><small>追加</small></button></div>
+  <div class="plan-edit">${pbadge(p, 'lg')}<div><b>メニュー${esc(p.name)}を編集中</b><small>${p.ex.length}種目${cp.type ? ` · ${esc(cp.type)} ${cp.min}分` : ''}</small></div></div>
+  <div class="row-btns"><button class="btn sm ghost" data-act="renamePlan">名前変更</button><button class="btn sm ghost" data-act="copyPlan">複製</button>${multiPlan() ? '<button class="btn sm ghost danger" data-act="delPlan">削除</button>' : ''}</div>
   ${(() => {
-    const row = (d, i) => `<div class="mrow ${d.enabled?'':'off'}">
-      <div class="mrow-main" data-act="editEx" data-m="${m}" data-i="${i}"><b>${esc(d.name)}</b><small>${isNum(d.weight) ? fmt(d.weight)+'kg' : '重量未設定'} · ${d.sets}×${rr(d)}</small></div>
-      ${d.enabled ? `<div class="mrow-btns"><button data-act="mvEx" data-i="${i}" data-d="-1" aria-label="上へ">↑</button><button data-act="mvEx" data-i="${i}" data-d="1" aria-label="下へ">↓</button></div>` : ''}
-      <button class="tg ${d.enabled ? 'on' : ''}" data-act="toggleEx" data-i="${i}">${d.enabled ? 'ON' : 'OFF'}</button></div>`;
-    const all = S.menus[m].map((d, i) => [d, i]);
-    const on = all.filter(([d]) => d.enabled), off = all.filter(([d]) => !d.enabled);
-    return `<div class="card p0">${on.map(([d, i]) => row(d, i)).join('') || '<div class="empty">種目がありません</div>'}</div>
-    ${off.length ? `<h2>使っていない種目</h2><div class="card p0">${off.map(([d, i]) => row(d, i)).join('')}</div>` : ''}`;
+    const row = (d, i, k) => `<div class="mrow ${k >= 0 ? '' : 'off'}">
+      <div class="mrow-main" data-act="editEx" data-m="${m}" data-i="${i}"><b class="mname">${k >= 0 ? `<span class="mno">${sessNo(k + 1)}</span>` : ''}<span>${esc(d.name)}</span></b><small>${isNum(d.weight) ? fmt(d.weight)+'kg' : '重量未設定'} · ${d.sets}×${rr(d)}${multiPlan() && S.plans.some(x => x.ex.includes(d.id)) ? `<span class="inplans">${S.plans.filter(x => x.ex.includes(d.id)).map(x => pbadge(x)).join('')}</span>` : ''}</small></div>
+      ${k >= 0 ? `<div class="mrow-btns"><button data-act="mvEx" data-k="${k}" data-d="-1" aria-label="上へ">↑</button><button data-act="mvEx" data-k="${k}" data-d="1" aria-label="下へ">↓</button></div>` : ''}
+      <button class="tg ${k >= 0 ? 'on' : ''}" data-act="toggleEx" data-id="${d.id}">${k >= 0 ? 'ON' : 'OFF'}</button></div>`;
+    const lib = S.menus[m], idx = id => lib.findIndex(d => d.id === id);
+    const on = p.ex.map((id, k) => [lib[idx(id)], idx(id), k]).filter(([d]) => d);
+    const off = lib.map((d, i) => [d, i, -1]).filter(([d]) => !p.ex.includes(d.id));
+    return `<div class="card p0 ${multiPlan() ? 'accent' : ''}" ${pcStyle(p)}>${on.map(([d, i, k]) => row(d, i, k)).join('') || '<div class="empty">まだ種目がありません<br>下の一覧で ON にすると、ここに並びます</div>'}</div>
+    ${off.length ? `<h2>使っていない種目${multiPlan() ? '(メニュー' + esc(p.name) + ')' : ''}</h2><div class="card p0">${off.map(([d, i, k]) => row(d, i, k)).join('')}</div>` : ''}`;
   })()}
   <button class="btn block" data-act="newEx">+ 種目</button>
-  <div class="card" style="margin-top:14px"><div class="grid2" style="grid-template-columns:1.6fr 1fr">
-    <div class="field"><label>有酸素(空欄ならなし)</label><input data-f="cardioPlan" data-k="type" value="${esc(S.cardioPlan.type)}" placeholder="例:ランニングマシン"></div>
-    <div class="field"><label>分</label><input inputmode="numeric" data-f="cardioPlan" data-k="min" value="${S.cardioPlan.min || ''}"></div>
-  </div><div class="field" style="margin:0"><label>内容</label><input data-f="cardioPlan" data-k="note" value="${esc(S.cardioPlan.note || '')}" placeholder="例:傾斜10%・時速5km"></div></div>
+  ${multiPlan() ? '<p class="muted" style="font-size:12px;margin:8px 0 0">種目名の横の色バッジは、その種目が入っているメニューです。重量・記録はメニューをまたいで共通です。</p>' : ''}
+  <div class="card" style="margin-top:14px"><div class="grid2" style="grid-template-columns:2.4fr 1fr">
+    <div class="field"><label>有酸素(空欄ならなし)</label><input data-f="cardioPlan" data-k="type" value="${esc(cp.type)}" placeholder="例:ランニングマシン"></div>
+    <div class="field"><label>分</label><input inputmode="numeric" data-f="cardioPlan" data-k="min" value="${cp.min || ''}"></div>
+  </div><div class="field" style="margin:0"><label>内容</label><input data-f="cardioPlan" data-k="note" value="${esc(cp.note || '')}" placeholder="例:傾斜10%・時速5km"></div></div>
 
   <h2>プログラム</h2>
   <div class="card">
@@ -1220,6 +1438,15 @@ function vSettings() {
   <div class="card">
     <div class="seg2" style="margin-bottom:10px">${[60,90,120].map(s => `<button class="${st.timer===s?'on':''}" data-act="timerPreset" data-v="${s}">${s}秒</button>`).join('')}</div>
     <label class="check"><input type="checkbox" data-f="setting" data-k="sound" ${st.sound?'checked':''}> 休憩が終わったら音で知らせる</label>
+    <button class="btn ghost block" data-act="soundTest" style="margin-top:10px">🔊 音を試す</button>
+    <div class="sound-note">
+      <b>iPhoneで音が鳴らないとき</b>
+      <ul>
+        <li>音量は着信音ではなく<b>音楽と同じ音量</b>です。音量ボタンで上げてください</li>
+        <li>マナーモード中は鳴りません</li>
+        <li>休憩中に<b>画面が消えている・ほかのアプリを開いている</b>と鳴りません(ブラウザの制限)。トレーニング中はこのアプリを開いたままにしてください</li>
+      </ul>
+    </div>
   </div>
 
   <h2>表示</h2>
@@ -1258,8 +1485,8 @@ function editExSheet(m, i) {
     <p class="muted" style="font-size:12px;margin:-4px 0 10px">目標回数の範囲です。「自動アップ」のときは、全セット上限までできたら次回の重量を上げます。</p>
     <div class="field"><label>メモ</label><input name="memo" value="${esc(d.memo)}"></div>
     <div class="field"><label>フォームのポイント(種目画面に表示)</label><textarea name="form" rows="2">${esc(d.form)}</textarea></div>
-    <label class="check"><input type="checkbox" name="enabled" ${d.enabled ? 'checked' : ''}> メニューに入れる</label>
-    <label class="check"><input type="checkbox" name="warmup" ${d.warmup ? 'checked' : ''}> ウォームアップ(集計・自己ベストに含めない)</label>
+    <label class="check"><input type="checkbox" name="enabled" ${isNew || curPlan().ex.includes(d.id) ? 'checked' : ''}> メニュー${multiPlan() ? esc(curPlan().name) : ''}に入れる</label>
+    <label class="check"><input type="checkbox" name="warmup" ${d.warmup ? 'checked' : ''}> <span>ウォームアップ<small style="display:block;color:var(--sub);font-size:12px;font-weight:600">集計・自己ベストに含めない</small></span></label>
     <button type="submit" class="btn primary block" style="margin-top:8px">保存</button>
     ${isNew ? '' : '<button type="button" class="btn ghost block danger" data-act="delEx">削除</button>'}
   </form>`);
@@ -1274,9 +1501,12 @@ function saveExForm(fd) {
   if (!E.isNew && newW !== (isNum(d.weight) ? +d.weight : null)) d.manualAt = Date.now();
   Object.assign(d, {name, weight:newW, step:num('step', 2.5) || 2.5, sets:Math.max(1, Math.round(num('sets', 3))),
     repMin:Math.max(1, Math.round(num('repMin', 8))), repMax:Math.max(1, Math.round(num('repMax', 10))),
-    memo:String(fd.get('memo') || ''), form:String(fd.get('form') || ''), enabled:fd.get('enabled') === 'on', warmup:fd.get('warmup') === 'on'});
+    memo:String(fd.get('memo') || ''), form:String(fd.get('form') || ''), enabled:true, warmup:fd.get('warmup') === 'on'});
   if (d.repMin > d.repMax) [d.repMin, d.repMax] = [d.repMax, d.repMin];
   if (E.isNew) list.push(d);
+  const p = curPlan(), inPlan = fd.get('enabled') === 'on';  // ON/OFF はいま選んでいるメニューに対して
+  if (inPlan && !p.ex.includes(d.id)) p.ex.push(d.id);
+  if (!inPlan) p.ex = p.ex.filter(id => id !== d.id);
   save(); closeSheet(); render(); toast('保存しました');
 }
 
@@ -1302,7 +1532,7 @@ async function importJson(file) {
     const obj = JSON.parse(await file.text());
     const data = obj.data || obj;
     if (!data.menus || !data.sessions) throw new Error('形式が違います');
-    if (!(await ask(`バックアップ(${obj.exportedAt ? obj.exportedAt.slice(0,10) : '日付不明'})を読み込みます。今のデータは上書きされます。`, '読み込む', true))) return;
+    if (!(await ask(['バックアップを読み込みますか?', `${obj.exportedAt ? fullD(obj.exportedAt.slice(0,10)) + ' のバックアップです。' : ''}今のデータは上書きされます`], '読み込む', true))) return;
     S = migrate(data); repairActive(); U.doneId = null; U.openHist = null; stopTimer(); save();
     toast('読み込みました'); render();
   } catch (e) { toast('読み込みに失敗しました:' + e.message, 3200); }
@@ -1316,7 +1546,7 @@ function render() {
   if (!['train','review','settings'].includes(U.tab)) U.tab = 'train';
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === U.tab));
   const fn = {train:vTrain, review:vReview, settings:vSettings}[U.tab];
-  $('#view').innerHTML = fn();
+  $('#view').innerHTML = fn(); wrapJa($('#view'));
   renderTimerShell();
 }
 
@@ -1327,7 +1557,7 @@ document.addEventListener('click', async ev => {
   const a = b.dataset.act, ds = b.dataset, i = +ds.i, j = +ds.j, A = S.active;
   switch (a) {
     case 'tab': U.tab = ds.tab; render(); window.scrollTo(0, 0); break;
-    case 'start': startSession('A'); break;
+    case 'start': startSession(curPlan().id); break;
     case 'skip': { A.exercises[i].skipped = true; A.room = null; save(); render(); window.scrollTo(0, 0); break; }
     case 'unskip': { A.exercises[i].skipped = false; save(); render(); break; }
     case 'room': if (A.room !== i && !exDone(A.exercises[i])) stopTimer(); A.room = i; save(); render(); window.scrollTo(0, 0); break;
@@ -1351,12 +1581,17 @@ document.addEventListener('click', async ev => {
     case 'cardioDone': A.cardio.done = !A.cardio.done; if (A.cardio.done) { A.room = null; toast(`${A.cardio.type} 完了`); } save(); render(); window.scrollTo(0, 0); break;
     case 'cardioRoom': if (!A.cardio.done) stopTimer(); A.room = 'cardio'; save(); render(); window.scrollTo(0, 0); break;
     case 'cardioMinAdj': A.cardio.min = Math.max(0, (+A.cardio.min || 0) + (+ds.d)); save(); render(); break;
+    case 'soundTest': {
+      unlockAudio(); const ok = beep();
+      setTimeout(() => toast(ok && AC && AC.state === 'running' ? '鳴らしました。聞こえなければ音量を上げてください' : '音を出せませんでした。もう一度タップしてください', 3200), 300);
+      break;
+    }
     case 'timerToggle': T.end > Date.now() ? stopTimer() : startTimer(); break;
     case 'timerPreset': S.settings.timer = +ds.v; save(); if (T.end > Date.now()) startTimer(+ds.v); if (U.tab === 'settings') render(); else renderTimerShell(); break;
     case 'finish': finishSession(); break;
     case 'shareDay': shareDay(ds.id); break;
     case 'closeDone': U.doneId = null; render(); window.scrollTo(0, 0); break;
-    case 'discard': if (await ask('今回のトレーニングを記録せずにやめますか?(入力した内容は消えます)', '記録せずにやめる', true)) { S.active = null; stopTimer(); releaseWake(); save(); render(); window.scrollTo(0, 0); toast('記録せずに終了しました'); } break;
+    case 'discard': if (await ask(['記録せずにやめますか?', '今回入力した内容は消えます'], 'やめる', true)) { S.active = null; stopTimer(); releaseWake(); save(); render(); window.scrollTo(0, 0); toast('記録せずに終了しました'); } break;
     case 'addExToSession': {
       const used = A.exercises.map(e => e.exId);
       const list = allDefs().filter(d => !used.includes(d.id));
@@ -1368,20 +1603,42 @@ document.addEventListener('click', async ev => {
     case 'editEx': editExSheet(ds.m, i); break;
     case 'newEx': editExSheet('A', -1); break;
     case 'mvEx': {
-      const l = S.menus.A; let k = i + (+ds.d);
-      while (k >= 0 && k < l.length && l[k].enabled !== l[i].enabled) k += (+ds.d);  // 同じグループ内で移動
-      if (k < 0 || k >= l.length) break; [l[i], l[k]] = [l[k], l[i]]; save(); render(); break;
+      const l = curPlan().ex, k = +ds.k, n = k + (+ds.d);
+      if (n < 0 || n >= l.length) break; [l[k], l[n]] = [l[n], l[k]]; save(); render(); break;
     }
     case 'toggleEx': {
-      const d = S.menus.A[i]; d.enabled = !d.enabled;
-      if (d.enabled) { S.menus.A.splice(i, 1); const last = S.menus.A.map(x => x.enabled).lastIndexOf(true); S.menus.A.splice(last + 1, 0, d);
-        if (!isNum(d.weight)) toast('重量をタップして設定してください'); }
+      const p = curPlan(), d = findDef(ds.id); if (!d) break;
+      if (p.ex.includes(d.id)) p.ex = p.ex.filter(id => id !== d.id);
+      else { p.ex.push(d.id); if (!isNum(d.weight)) toast('重量をタップして設定してください'); }
       save(); render(); break;
+    }
+    case 'pickPlan': U.plan = ds.id; render(); break;
+    case 'addPlan': case 'copyPlan': {
+      const used = new Set(S.plans.map(x => x.name));
+      const name = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].find(c => !used.has(c)) || String(S.plans.length + 1);
+      const src = curPlan(), copy = a === 'copyPlan';
+      const usedC = new Set(S.plans.map(x => +x.c)), c = PLAN_COLORS.findIndex((_, k) => !usedC.has(k));
+      const p = newPlan(uid(), name, copy ? [...src.ex] : [], {...src.cardio}, c >= 0 ? c : S.plans.length);
+      S.plans.push(p); U.plan = p.id; save(); render();
+      toast(copy ? `メニュー${src.name}を複製してメニュー${name}を作りました` : `メニュー${name}を追加しました。使う種目を ON にしてください`, 3000);
+      break;
+    }
+    case 'renamePlan': {
+      const p = curPlan();
+      const ok = await ask('メニューの名前', '変更', false, `<div class="field" style="margin:12px 0 0"><input id="planNameInp" maxlength="12" value="${esc(p.name)}" placeholder="例:A、胸・背中"></div>`);
+      const v = ok && $('#planNameInp') ? $('#planNameInp').value.trim() : '';
+      if (v) { p.name = v; save(); render(); }
+      break;
+    }
+    case 'delPlan': {
+      const p = curPlan(); if (!multiPlan()) break;
+      if (!(await ask([`メニュー${p.name}を削除しますか?`, '種目と過去の記録は残ります'], '削除する', true))) break;
+      S.plans = S.plans.filter(x => x.id !== p.id); U.plan = null; save(); render(); break;
     }
     case 'tpl': { const t = TEMPLATES[+ds.k], f = $('#exForm'); if (!f) break; ['name','weight','sets','repMin','repMax','step'].forEach(k => f[k].value = t[k]); break; }
     case 'delEx': {
-      const E = U.editing; if (!E || !(await ask('この種目をメニューから削除しますか?(過去の記録は残ります)', '削除する', true))) break;
-      S.menus[E.m].splice(E.i, 1); save(); closeSheet(); render(); break;
+      const E = U.editing; if (!E || !(await ask(['この種目を削除しますか?', 'すべてのメニューから外れます\n過去の記録は残ります'], '削除する', true))) break;
+      S.menus[E.m].splice(E.i, 1); S.plans.forEach(p => p.ex = p.ex.filter(id => id !== E.id)); save(); closeSheet(); render(); break;
     }
     case 'theme': S.settings.theme = ds.v; save(); render(); break;
     case 'autoProg': S.settings.autoProg = ds.v === 'true'; save(); render(); break;
@@ -1395,14 +1652,14 @@ document.addEventListener('click', async ev => {
     }
     case 'copyAgain': { const ta = $('.summary'); if (ta) { const ok = await copyText(ta.value); toast(ok ? 'コピーしました' : 'コピーできませんでした'); } break; }
     case 'reset':
-      if (await ask('すべての記録を削除します。よろしいですか?', '削除する', true) && await ask('本当に削除しますか?(元に戻せません)', '完全に削除', true)) {
+      if (await ask(['すべてのデータを削除しますか?', '記録・メニュー・設定がすべて消えます'], '削除する', true) && await ask(['本当に削除しますか?', 'バックアップがなければ元に戻せません'], '完全に削除', true)) {
         localStorage.removeItem(KEY); S = defaultState(); U.doneId = null; U.openHist = null; stopTimer(); save(); render(); toast('初期状態に戻しました');
       }
       break;
     case 'calNav': U.calM += +ds.d; if (U.calM < 0) { U.calM = 11; U.calY--; } if (U.calM > 11) { U.calM = 0; U.calY++; } render(); break;
     case 'chartMode': U.chartMode = ds.v; render(); break;
     case 'toggleHist': U.openHist = U.openHist === ds.id ? null : ds.id; render(); break;
-    case 'delSession': if (await ask('このトレーニング記録を削除しますか?', '削除する', true)) { S.sessions = S.sessions.filter(s => s.id !== ds.id); if (U.doneId === ds.id) U.doneId = null; save(); render(); } break;
+    case 'delSession': if (await ask(['この日の記録を削除しますか?', '元に戻せません'], '削除する', true)) { S.sessions = S.sessions.filter(s => s.id !== ds.id); if (U.doneId === ds.id) U.doneId = null; save(); render(); } break;
   }
 });
 document.addEventListener('input', ev => {
@@ -1415,7 +1672,7 @@ document.addEventListener('input', ev => {
 document.addEventListener('change', ev => {
   const t = ev.target, f = t.dataset.f; if (!f) return;
   if (f === 'setting') { const k = t.dataset.k; let v = t.type === 'checkbox' ? t.checked : t.value; if (t.dataset.num) v = +v || 0; if (k === 'startDate' && !v) v = today(); S.settings[k] = v; save(); render(); }
-  else if (f === 'cardioPlan') { S.cardioPlan[t.dataset.k] = t.dataset.k === 'min' ? (+t.value || 0) : t.value.trim(); save(); }
+  else if (f === 'cardioPlan') { curPlan().cardio[t.dataset.k] = t.dataset.k === 'min' ? (+t.value || 0) : t.value.trim(); save(); }
   else if (f === 'chartEx') { U.chartEx = t.value; render(); }
   else if (f === 'importFile') { importJson(t.files[0]); t.value = ''; }
 });
@@ -1424,13 +1681,19 @@ document.addEventListener('submit', ev => {
   if (f.id === 'exForm') { ev.preventDefault(); saveExForm(new FormData(f)); }
 });
 ['pointerdown','touchend','keydown'].forEach(t => document.addEventListener(t, unlockAudio, {passive:true, capture:true}));
-document.addEventListener('visibilitychange', () => { if (!document.hidden) { wake(); tick(); } });
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { acStale = true; return; }  // 戻ってきたら、次のタップで AudioContext を作り直す
+  wake(); tick();
+  // 戻った直後にタップしなくても鳴るように、復帰できる場合は復帰して予約し直す
+  try { if (AC && AC.state !== 'running' && AC.state !== 'closed') AC.resume().then(() => { if (AC.state === 'running' && T.end > Date.now()) { acStale = false; scheduleBeep(); } }).catch(() => {}); } catch (e) {}
+  if (AC && AC.state === 'running' && T.end > Date.now()) scheduleBeep();  // 止まっていた時計のぶん、予約をずらす
+});
 
 /* ========== 起動 ========== */
 /* 古いバージョンで始めた途中のトレーニングを今のメニューに合わせて直す */
 function repairActive() {
   const A = S.active; if (!A) return;
-  const defs = S.menus.A.filter(d => d.enabled);
+  const plan = planById(A.menu) || curPlan(), defs = planDefs(plan);
   const anyDone = A.exercises.some(e => e.sets.some(x => x.done));
   if (!A.v && !anyDone && A.exercises.map(e => e.exId).join() !== defs.map(d => d.id).join()) {
     A.exercises = defs.map(buildEx); A.room = null;
@@ -1438,7 +1701,8 @@ function repairActive() {
   A.exercises.forEach(e => {
     if (e.w === undefined) { const d = doneSets(e); e.w = d.length ? d[d.length-1].w : (e.sugg && e.sugg.w != null ? e.sugg.w : ''); }
   });
-  if (!A.cardio || !A.cardio.type) A.cardio = {type:S.cardioPlan.type || '', note:S.cardioPlan.note || '', min:+S.cardioPlan.min || 0, done:false};
+  if (!A.cardio) A.cardio = {type:plan.cardio.type || '', note:plan.cardio.note || '', min:+plan.cardio.min || 0, done:false};
+  if (!A.menu || !planById(A.menu)) { A.menu = plan.id; A.menuName = plan.name; }
   if (A.room === undefined || (typeof A.room === 'number' && !A.exercises[A.room])) A.room = null;
   A.v = 5; save();
 }
